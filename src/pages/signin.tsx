@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -7,7 +7,7 @@ import { ZodError } from "zod";
 
 export default function Signin() {
   const router = useRouter();
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
 
   async function handleSubmit(e) {
     try {
@@ -40,6 +40,14 @@ export default function Signin() {
     }
   }
 
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
+    }
+  }, [error]);
+
   return (
     <>
       <Head>
@@ -56,7 +64,7 @@ export default function Signin() {
           >
             <label>
               Email
-              <input name="email" type="text" autocomplete="off" />
+              <input name="email" type="text" autoComplete="off" />
             </label>
             <label>
               Password

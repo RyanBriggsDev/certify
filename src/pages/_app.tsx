@@ -1,3 +1,4 @@
+import React, { ReactNode } from "react";
 import "@/styles/index.css";
 import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";

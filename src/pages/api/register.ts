@@ -4,8 +4,9 @@ import bcrypt from "bcryptjs";
 import * as utils from "@/lib/utils";
 import { createAdmin } from "@/lib/schema";
 import { ZodError } from "zod";
+import { Prisma } from "@prisma/client";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method == "POST") {
     try {
       const { body } = req;
@@ -15,7 +16,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       const salt = await bcrypt.genSalt(10);
       buildAdmin.password = await bcrypt.hash(buildAdmin.password, salt);
       // Save the new admin to database
-      const admin = await utils.prisma.admin.create({ data: buildAdmin });
+      const admin = await utils.prisma.admin.create({
+        data: { email: buildAdmin.email, password: buildAdmin.password },
+      });
       // Send response back
       res.status(200).json({ success: "Admin Created", data: admin });
     } catch (error) {
@@ -26,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             message: error.issues[0].message,
           },
         });
-      } else if (error instanceof utils.Prisma.PrismaClientKnownRequestError) {
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === "P2002") {
           res.status(500).json({
             error: `There is a unique constraint violation on field [${error.meta.target}]. Please use a unique value.`,
