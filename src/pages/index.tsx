@@ -1,7 +1,15 @@
 import Head from "next/head";
 import Image from "next/image";
+import BtnPrimary from '@/components/buttons/BtnPrimary'
+import BtnOrange from '@/components/buttons/BtnOrange'
+import BtnLight from '@/components/buttons/BtnLight'
+
+import { useRouter } from "next/router";
 
 export default function Home() {
+
+  const router = useRouter()
+
   return (
     <>
       <Head>
@@ -17,13 +25,19 @@ export default function Home() {
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <main>
-        <div className="flex content-center min-h-screen justify-around">
-          <p>text</p>
-          <p>text</p>
-          <p>text</p>
-          <p>text</p>
-        </div>
+      <main className="grid gap-5 place-content-center h-screen">
+          <BtnPrimary
+            btnText='Sign In'
+            btnOnClick={() => router.push('/signin')}
+          />
+          <BtnOrange
+            btnText='Dashboard'
+            btnOnClick={() => router.push('/app')}
+          />
+          <BtnLight
+            btnText='Something Else'
+            btnOnClick={() => router.push('/something-else')}
+          />
       </main>
     </>
   );
