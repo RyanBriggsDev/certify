@@ -5,9 +5,14 @@ import { useRouter } from "next/router";
 import { loginSchema } from "@/lib/schema";
 import { ZodError } from "zod";
 
+type SigninError = {
+  message: any;
+  field?: any;
+};
+
 export default function Signin() {
   const router = useRouter();
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<SigninError>({ message: null });
 
   async function handleSubmit(e) {
     try {
@@ -25,10 +30,13 @@ export default function Signin() {
         password: loginDetails.password,
         redirect: false,
       });
-      if (result.ok) {
+      if (result?.ok) {
         router.push("/app");
       } else {
-        setError(result);
+        console.log(result);
+        setError({
+          message: "Log in error",
+        });
       }
     } catch (error) {
       if (error instanceof ZodError) {
@@ -41,9 +49,9 @@ export default function Signin() {
   }
 
   useEffect(() => {
-    if (error) {
+    if (error.message) {
       setTimeout(() => {
-        setError(null);
+        setError({ message: null });
       }, 3000);
     }
   }, [error]);
@@ -73,7 +81,7 @@ export default function Signin() {
             <button type="submit">Sign in</button>
           </form>
         </div>
-        {error ? <div>Something's gone wrong, try again</div> : null}
+        {error.message ? <div>Something's gone wrong, try again</div> : null}
       </main>
     </>
   );

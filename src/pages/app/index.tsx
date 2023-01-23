@@ -7,7 +7,7 @@ export default function Dashboard() {
   return (
     <Protected className="">
       <h1>Dashboard</h1>
-      <h2>Hi {session?.user.email}</h2>
+      <h2>Hi {session?.user?.email}</h2>
       <SignOutButton />
     </Protected>
   );

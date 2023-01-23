@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const profile = await utils.prisma.admin.findUnique({
         where: {
-          id: token.sub,
+          id: token?.sub,
         },
       });
       const filtered = await utils.filterProfile(profile);
@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const update = await updateAdmin.parse(body);
       const profile = await utils.prisma.admin.update({
         where: {
-          id: token.sub,
+          id: token?.sub,
         },
         data: update,
       });

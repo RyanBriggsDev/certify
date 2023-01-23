@@ -12,7 +12,7 @@ export const handleErrors = async (error, res) => {
   } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
     if (error.code === "P2002") {
       res.status(500).json({
-        error: `There is a unique constraint violation on field [${error.meta.target}]. Please use a unique value.`,
+        error: `There is a unique constraint violation on field [${error?.meta?.target}]. Please use a unique value.`,
       });
     } else {
       res.status(500).json({

@@ -2,20 +2,22 @@ import React, { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-export default function Dashboard() {
+export default function TestPage() {
   const { data: session, status } = useSession();
 
   const sendRequest = async () => {
     try {
-      const response = await fetch(`/api/profile`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: "chris@gmail.com",
-          name: "Chris Hurst",
-        }),
+      const response = await fetch(`/api/courses`, {
+        method: "GET",
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+        // body: JSON.stringify({
+        //   name: "New Course 16",
+        //   type: "Forklift",
+        //   description: "A course designed to stop you killing yourself or others",
+        //   location: "Warehouse 4",
+        // }),
       });
       if (!response.ok) {
         console.log("ERROR");

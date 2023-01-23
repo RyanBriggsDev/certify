@@ -49,6 +49,10 @@ export const authOptions = {
           return token;
         },
       },
+      pages: {
+        signIn: "/signin",
+        error: "/500",
+      },
     }),
   ],
 };
