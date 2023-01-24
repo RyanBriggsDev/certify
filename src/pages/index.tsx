@@ -1,8 +1,7 @@
 import Head from "next/head";
-import Image from "next/image";
-import BtnPrimary from '@/components/buttons/BtnPrimary'
-import BtnOrange from '@/components/buttons/BtnOrange'
-import BtnLight from '@/components/buttons/BtnLight'
+import Container from '@/components/Container'
+import PageSpacing from "@/components/PageSpacing";
+import Header from "@/components/Header";
 
 import { useRouter } from "next/router";
 
@@ -25,20 +24,20 @@ export default function Home() {
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <main className="grid gap-5 place-content-center h-screen">
-          <BtnPrimary
-            btnText='Sign In'
-            btnOnClick={() => router.push('/signin')}
-          />
-          <BtnOrange
-            btnText='Dashboard'
-            btnOnClick={() => router.push('/app')}
-          />
-          <BtnLight
-            btnText='Something Else'
-            btnOnClick={() => router.push('/something-else')}
-          />
-      </main>
+        <main>
+          <PageSpacing>
+            <Container>
+              <Header 
+                h1Text='Welcome to Certify'
+                className='text-center items-center'
+                btnType='primary' 
+                btnText='Sign In' 
+                btnWidth='w-1/4'
+                btnOnClick={() => router.push('/signin')} 
+              />
+            </Container>
+          </PageSpacing>
+        </main>
     </>
-  );
+  )
 }
