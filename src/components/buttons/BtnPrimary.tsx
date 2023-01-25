@@ -5,7 +5,7 @@ export default function Button (props: any) {
     return (
         <button 
             onClick={props.btnOnClick}
-            className={`${props.btnFontSizeClass ? props.btnFontSizeClass : 'text-base'} ${props.width ? props.width : 'w-fit'} outline outline-white outline-1 rounded p-1.5 px-3 bg-french-blue shadow-lg hover:outline-2 hover:outline-sapph-blue hover:shadow-inner active:bg-sapph-blue text-white ease-in-out duration-300 ${props.btnClassName ? props.btnClassName : ''}`} 
+            className={`${props.btnFontSizeClass ? props.btnFontSizeClass : 'text-base'} ${props.width ? props.width : 'w-fit'} rounded p-1.5 px-3 bg-french-blue shadow-lg hover:shadow-inner hover:bg-sapph-blue text-white ease-in-out duration-300 ${props.btnClassName ? props.btnClassName : ''}`} 
         >
             {props.btnText}
         </button>

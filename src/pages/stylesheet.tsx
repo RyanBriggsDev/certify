@@ -11,6 +11,7 @@ import BtnOrange from '@/components/buttons/BtnOrange'
 import BtnLight from '@/components/buttons/BtnLight'
 import InlineLink from "@/components/InlineLink"
 import Input from "@/components/form/Input"
+import Dropdown from "@/components/buttons/Dropdown"
 
 import { useRouter } from "next/router"
 
@@ -29,7 +30,7 @@ export default function StylesSheet () {
                             h1Text='Welcome to the Certify StyleSheet' 
                             btnType='primary'
                             btnText='Lost? Go Home'
-                            btnOnCLick={() => router.push('/')}
+                            btnOnClick={() => router.push('/')}
                             />
                     </div>
                     <hr />
@@ -47,7 +48,7 @@ export default function StylesSheet () {
                     <hr />
                     <div>
                         <H2>Button Components</H2>
-                        <div className="grid grid-cols-3 gap-10">
+                        <div className="grid grid-cols-4 gap-10">
                             <BtnPrimary 
                                 btnText='BtnPrimary'
                                 width='w-100'
@@ -56,9 +57,13 @@ export default function StylesSheet () {
                                 btnText='BtnOrange'
                                 width='w-100'
                             />
-                            <BtnLight 
+                            <BtnLight
                                 btnText='BtnLight'
                                 width='w-100'
+                            />
+                            <Dropdown 
+                                title='Dropdown Menu'
+                                dropdownItems={dropdownItems}
                             />
                         </div>
                     </div>
@@ -74,3 +79,22 @@ export default function StylesSheet () {
         </>
     )
 }
+
+const dropdownItems = [
+    {
+        name: 'Home',
+        link: '/'
+    },
+    {
+        name: 'About',
+        link: '/about'
+    },
+    {
+        name: 'Contact',
+        link: '/contact'
+    }, 
+    {
+        name: 'Pricing',
+        link: '/pricing'
+    }
+]
