@@ -4,16 +4,20 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { loginSchema } from "@/lib/schema";
 import { ZodError } from "zod";
+import Form from "@/components/form/Form";
 
 export default function Signin() {
   const router = useRouter();
   const [error, setError] = useState(null);
 
   async function handleSubmit(e) {
+  // async function onSubmitHandler(form: any) {
+    e.preventDefault()
     try {
-      e.preventDefault();
       const email = e.target[0].value;
       const password = e.target[1].value;
+      // const email = form.email;
+      // const password = form.password
       // Check credentials are valid
       const loginDetails = await loginSchema.parse({
         email,
@@ -48,6 +52,7 @@ export default function Signin() {
     }
   }, [error]);
 
+
   return (
     <>
       <Head>
@@ -57,6 +62,13 @@ export default function Signin() {
       </Head>
       <main className="w-full h-full">
         <div className="flex content-center justify-around">
+
+          {/* <Form 
+            formContent={formContent}
+            btnStyle={{width: '100%'}}
+            onSubmit={onSubmitHandler}
+          /> */}
+
           <form
             onSubmit={(e) => {
               handleSubmit(e);
@@ -78,3 +90,34 @@ export default function Signin() {
     </>
   );
 }
+
+const formContent = [
+  {
+    title: 'Sign In to Certify',
+    desc: 'Log in to get started',
+    inputs: [
+      {
+        label: 'Sign In',
+        type: 'text',
+        name: 'signIn',
+        placeholder: 'r@ryanbriggs.dev',
+        required: true,
+      },
+      {
+        label: 'Password',
+        type: 'password',
+        name: 'password',
+        placeholder: 'password',
+        required: true,
+      }
+    ],
+    button: {
+        btnText: 'Submit',
+        btnType: 'primary',
+    },
+    redirect: {
+      text: 'No Account? Register.',
+      link: '/register'
+    }
+  }
+]
