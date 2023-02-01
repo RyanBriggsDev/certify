@@ -10,14 +10,10 @@ export default function Signin() {
   const router = useRouter();
   const [error, setError] = useState(null);
 
-  async function handleSubmit(e) {
-  // async function onSubmitHandler(form: any) {
-    e.preventDefault()
+  async function onSubmitHandler(form: any) {
     try {
-      const email = e.target[0].value;
-      const password = e.target[1].value;
-      // const email = form.email;
-      // const password = form.password
+      const email = form.email
+      const password = form.password
       // Check credentials are valid
       const loginDetails = await loginSchema.parse({
         email,
@@ -52,7 +48,6 @@ export default function Signin() {
     }
   }, [error]);
 
-
   return (
     <>
       <Head>
@@ -63,27 +58,11 @@ export default function Signin() {
       <main className="w-full h-full">
         <div className="flex content-center justify-around">
 
-          {/* <Form 
+          <Form 
             formContent={formContent}
             btnStyle={{width: '100%'}}
             onSubmit={onSubmitHandler}
-          /> */}
-
-          <form
-            onSubmit={(e) => {
-              handleSubmit(e);
-            }}
-          >
-            <label>
-              Email
-              <input name="email" type="text" autoComplete="off" />
-            </label>
-            <label>
-              Password
-              <input name="password" type="password" />
-            </label>
-            <button type="submit">Sign in</button>
-          </form>
+          />
         </div>
         {error ? <div>Something's gone wrong, try again</div> : null}
       </main>
@@ -99,8 +78,8 @@ const formContent = [
       {
         label: 'Sign In',
         type: 'text',
-        name: 'signIn',
-        placeholder: 'r@ryanbriggs.dev',
+        name: 'email',
+        placeholder: 'r@certify.com',
         required: true,
       },
       {

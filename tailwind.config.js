@@ -12,6 +12,7 @@ module.exports = {
         'sapph-blue': '#12618E',
         'azure-blue': '#E1F7FE',
         'light-gray': '#CFCFCF',
+        'dark-gray': '#2b2b2b',
         'pallete-orange': '#E49D23'
       },
     },

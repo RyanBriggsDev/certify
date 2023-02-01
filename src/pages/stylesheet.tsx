@@ -10,7 +10,7 @@ import BtnPrimary from '@/components/buttons/BtnPrimary'
 import BtnOrange from '@/components/buttons/BtnOrange'
 import BtnLight from '@/components/buttons/BtnLight'
 import InlineLink from "@/components/InlineLink"
-import Input from "@/components/form/Input"
+import Form from "@/components/form/Form"
 import Dropdown from "@/components/buttons/Dropdown"
 
 import { useRouter } from "next/router"
@@ -70,10 +70,13 @@ export default function StylesSheet () {
                     <hr />
                     <div>
                         <H2>Form Components</H2>
-                        <Input 
-                            placeholder={'<Input type="" placeholder="" onChange={} name={} value={} require={} className={``} />'}
+                        <Form 
+                            formContent={formContent}
+                            onSubmit={{}}
+                            btnStyle={{width: '100%'}}
                         />
                     </div>
+                    <hr />
                 </PageSpacing>
             </Container>
         </>
@@ -98,3 +101,32 @@ const dropdownItems = [
         link: '/pricing'
     }
 ]
+
+const formContent = [{
+      title: 'title',
+      desc: 'desc',
+      inputs: [
+        {
+          label: 'label',
+          type: 'text',
+          name: 'email',
+          placeholder: 'input compnent',
+          required: true,
+        },
+        {
+          label: 'Password',
+          type: 'password',
+          name: 'password',
+          placeholder: 'password',
+          required: true,
+        }
+      ],
+      button: {
+          btnText: 'BtnPrimary',
+          btnType: 'primary',
+      },
+      redirect: {
+        text: 'No Account? Register.',
+        link: '/register'
+      }
+    }]

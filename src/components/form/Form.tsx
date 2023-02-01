@@ -3,8 +3,9 @@ import BtnPrimary from '../buttons/BtnPrimary'
 import BtnOrange from '../buttons/BtnOrange'
 import BtnLight from '../buttons/BtnLight'
 import InlineLink from "../InlineLink"
-import { useRouter } from "next/router"
 import { useState } from "react"
+import Image from "next/image"
+import formContentExample from '@/assets/devExamples/formContentExample.png'
 
 const setInitialValues = (formFields: any) => {
     let initialfields = {};
@@ -14,17 +15,30 @@ const setInitialValues = (formFields: any) => {
     return initialfields;
   };
   
-
 export default function Form ({
+    formContent,
     formClassName,
     formPadding,
     formRounded,
-    formContent,
+    formWidth,
     btnStyle,
     onSubmit,
 }: any) {
 
-    // console.log(formContent);
+    if(!formContent || !onSubmit) {
+        return (
+            <div className="grid grid-cols-1 md:grid-cols-2 w-fit gap-5 bg-red-500 text-white p-2 rounded md:justify-center md:items-center">
+                <div>
+                    <p><strong>Mandatory Props:</strong> formContent and onSubmit.</p>
+                    <p><strong>Optional Props:</strong> formPadding, formRounded, formWidth and btnStyle.</p>
+                    <p>formContent is an object that contains title, desc?, inputs, button and redirect? props.</p>
+                </div>
+                <div className='flex items-center justify-center'>
+                    <Image src={formContentExample} alt='formContent example code.' />
+                </div>
+            </div>
+        )
+    }
     const {title, desc, inputs, button, redirect} = formContent[0]
     const [data, setData] = useState(setInitialValues(inputs))
 
@@ -36,9 +50,10 @@ export default function Form ({
             autoComplete={"off"}
             className={`
                 ${formClassName ? formClassName : ''} 
-                ${formPadding === false ? '' : 'p-5'}
+                ${formPadding === false ? '' : 'p-7'}
                 ${formRounded === false ? '' : 'rounded'}
-                bg-[#2b2b2b] flex flex-col gap-5
+                ${formWidth ? formWidth : 'w-fit'}
+                bg-gray-300 shadow-lg dark:shadow-none dark:bg-dark-gray flex flex-col gap-5
                 `
             }
         >
@@ -68,7 +83,7 @@ export default function Form ({
                 </div>
             ))}
             </div>
-            {button.btnType === 'primary' 
+            {button.btnType === 'primary' || !button.btnType 
             ? 
             <BtnPrimary 
             btnText={button.btnText} 
@@ -104,10 +119,4 @@ export default function Form ({
         }
         </form>
     )
-}
-
-const styles = {
-    form: {
-        
-    }
 }
