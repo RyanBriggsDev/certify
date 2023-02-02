@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as utils from "@/lib/utils";
-import { createAdmin, updateAdmin } from "@/lib/schema";
+import { updateAdmin } from "@/lib/schema";
 import { handleErrors } from "@/lib/errors";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } catch (error) {
       await handleErrors(error, res);
     }
-  } else if (req.method == "POST") {
+  } else if (req.method == "PUT") {
     const { body } = req;
     try {
       const update = await updateAdmin.parse(body);

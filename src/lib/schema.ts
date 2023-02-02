@@ -25,3 +25,13 @@ export const createCourse = z.object({
   endDate: z.coerce.date().optional(),
   adminId: z.string(),
 });
+
+export const updateCourse = z.object({
+  name: z.string().optional(),
+  type: z.string().optional(),
+  description: z.string().optional(),
+  location: z.string().optional(),
+  startDate: z.coerce.date().optional(),
+  endDate: z.coerce.date().optional(),
+  active: z.boolean().optional(),
+});

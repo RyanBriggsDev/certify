@@ -7,17 +7,17 @@ export default function TestPage() {
 
   const sendRequest = async () => {
     try {
-      const response = await fetch(`/api/courses`, {
-        method: "GET",
-        // headers: {
-        //   "Content-Type": "application/json",
-        // },
-        // body: JSON.stringify({
-        //   name: "New Course 16",
-        //   type: "Forklift",
-        //   description: "A course designed to stop you killing yourself or others",
-        //   location: "Warehouse 4",
-        // }),
+      const response = await fetch(`/api/courses/cld938xfc0000s82imys8ae44`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: "New Course 44",
+          type: "Forklift",
+          description: "A course designed to stop you killing yourself or others",
+          location: "Warehouse 4",
+        }),
       });
       if (!response.ok) {
         console.log("ERROR");
