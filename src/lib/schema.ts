@@ -35,3 +35,20 @@ export const updateCourse = z.object({
   endDate: z.coerce.date().optional(),
   active: z.boolean().optional(),
 });
+
+export const createCandidate = z.object({
+  name: z.string(),
+  email: z.string().optional(),
+  address: z.string().optional(),
+  telephoneNumber: z.string().optional(),
+  company: z.string().optional(),
+  createdById: z.string(),
+});
+
+export const updateCandidate = z.object({
+  name: z.string().optional(),
+  email: z.string().optional(),
+  address: z.string().optional(),
+  telephoneNumber: z.string().optional(),
+  company: z.string().optional(),
+});

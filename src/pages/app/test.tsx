@@ -7,25 +7,25 @@ export default function TestPage() {
 
   const sendRequest = async () => {
     try {
-      const response = await fetch(`/api/courses/cld938xfc0000s82imys8ae44`, {
-        method: "PUT",
+      const response = await fetch(`/api/candidate/`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: "New Course 44",
-          type: "Forklift",
-          description: "A course designed to stop you killing yourself or others",
-          location: "Warehouse 4",
+          name: "Chris Hurst",
+          email: "test@gmail.com",
+          address: "7 Anson Close",
+          company: "LSEG",
         }),
       });
       if (!response.ok) {
-        console.log("ERROR");
+        console.log("RESPONSE ERROR");
       }
       const data = await response.json();
       console.log(data);
     } catch (error) {
-      console.log("ERROR");
+      console.log("UNKNOWN ERROR");
     }
   };
 

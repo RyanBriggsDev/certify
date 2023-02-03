@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           data: inputData,
         });
         const response: CourseResponse = { success: true, data: course };
-        res.status(200).json({ success: true, data: response });
+        res.status(200).json(response);
       } catch (error) {
         await handleErrors(error, res);
       }
