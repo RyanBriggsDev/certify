@@ -1,12 +1,11 @@
-import Head from "next/head";
+import Head from 'next/head'
 import Container from '@/components/Container'
-import PageSpacing from "@/components/PageSpacing";
-import Header from "@/components/Header";
+import PageSpacing from '@/components/PageSpacing'
+import Header from '@/components/Header'
 
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router'
 
 export default function Home() {
-
   const router = useRouter()
 
   return (
@@ -24,20 +23,20 @@ export default function Home() {
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-        <main>
-          <PageSpacing>
-            <Container>
-              <Header 
-                h1Text='Welcome to Certify'
-                className='text-center items-center'
-                btnType='primary' 
-                btnText='Sign In' 
-                btnWidth='w-1/4'
-                btnOnClick={() => router.push('/signin')} 
-              />
-            </Container>
-          </PageSpacing>
-        </main>
+      <main>
+        <PageSpacing>
+          <Container>
+            <Header
+              h1Text="Welcome to Certify"
+              className="items-center text-center"
+              btnType="primary"
+              btnText="Sign In"
+              btnWidth="w-1/4"
+              btnOnClick={() => router.push('/signin')}
+            />
+          </Container>
+        </PageSpacing>
+      </main>
     </>
   )
 }
