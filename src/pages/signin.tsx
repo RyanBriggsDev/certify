@@ -15,10 +15,11 @@ export default function Signin() {
       const email = form.email
       const password = form.password
       // Check credentials are valid
-      const loginDetails = await loginSchema.parse({
-        email,
-        password,
-      })
+      const loginDetails =
+        await loginSchema.parse({
+          email,
+          password,
+        })
       // Pass credentials to NextAuth & login
       const result = await signIn('credentials', {
         email: loginDetails.email,
@@ -52,14 +53,25 @@ export default function Signin() {
     <>
       <Head>
         <title>Signin to Certify</title>
-        <meta name="description" content="This is the login page for the Certify" />
+        <meta
+          name="description"
+          content="This is the login page for the Certify"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="h-full w-full">
         <div className="flex content-center justify-around">
-          <Form formContent={formContent} btnStyle={{ width: '100%' }} onSubmit={onSubmitHandler} />
+          <Form
+            formContent={formContent}
+            btnStyle={{ width: '100%' }}
+            onSubmit={onSubmitHandler}
+          />
         </div>
-        {error ? <div>Something's gone wrong, try again</div> : null}
+        {error ? (
+          <div>
+            Something's gone wrong, try again
+          </div>
+        ) : null}
       </main>
     </>
   )
@@ -71,7 +83,7 @@ const formContent = [
     desc: 'Log in to get started',
     inputs: [
       {
-        label: 'Sign In',
+        label: 'Email',
         type: 'text',
         name: 'email',
         placeholder: 'r@certify.com',
