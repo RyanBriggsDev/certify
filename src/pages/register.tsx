@@ -11,8 +11,7 @@ export default function Register() {
     const email = form.email
     const password = form.password
     const password2 = form.password2
-    if (password !== password2)
-      return alert('Passwords do not match')
+    if (password !== password2) return alert('Passwords do not match')
   }
 
   return (
@@ -54,8 +53,8 @@ const formContent = [
       },
     ],
     button: {
-      btnText: 'Register',
-      btnType: 'primary',
+      text: 'Register',
+      type: 'primary',
     },
     redirect: {
       text: 'Already have an account? Login',

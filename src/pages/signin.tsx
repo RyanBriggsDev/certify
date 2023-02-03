@@ -15,11 +15,10 @@ export default function Signin() {
       const email = form.email
       const password = form.password
       // Check credentials are valid
-      const loginDetails =
-        await loginSchema.parse({
-          email,
-          password,
-        })
+      const loginDetails = await loginSchema.parse({
+        email,
+        password,
+      })
       // Pass credentials to NextAuth & login
       const result = await signIn('credentials', {
         email: loginDetails.email,
@@ -67,11 +66,7 @@ export default function Signin() {
             onSubmit={onSubmitHandler}
           />
         </div>
-        {error ? (
-          <div>
-            Something's gone wrong, try again
-          </div>
-        ) : null}
+        {error ? <div>Something's gone wrong, try again</div> : null}
       </main>
     </>
   )
@@ -98,8 +93,8 @@ const formContent = [
       },
     ],
     button: {
-      btnText: 'Submit',
-      btnType: 'primary',
+      text: 'Submit',
+      type: 'primary',
     },
     redirect: {
       text: 'No Account? Register.',

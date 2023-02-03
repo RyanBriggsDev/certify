@@ -8,21 +8,25 @@ export default function Input({
   id,
   required,
   width,
+  labelText,
 }: any) {
   return (
-    <input
-      type={type}
-      placeholder={placeholder}
-      onChange={onChange}
-      name={name}
-      id={id}
-      value={value}
-      required={required}
-      className={`${
-        width ? width : 'w-full'
-      } rounded bg-slate-100 p-1.5 px-3 text-black shadow-lg outline outline-1 outline-slate-400 duration-300 ease-in-out focus:outline-2 focus:outline-french-blue ${
-        className ? className : ''
-      }`}
-    />
+    <>
+      <label>{labelText}</label>
+      <input
+        type={type}
+        placeholder={placeholder}
+        onChange={onChange}
+        name={name}
+        id={id}
+        value={value}
+        required={required}
+        className={`${
+          width ? width : 'w-full'
+        } rounded border border-zinc-700 bg-transparent p-1.5 px-3 text-black duration-300 ease-in-out focus:border-french-blue ${
+          className ? className : ''
+        }`}
+      />
+    </>
   )
 }

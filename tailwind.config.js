@@ -1,11 +1,9 @@
 module.exports = {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       fontFamily: {
-        'sans': ['ui-sans-serif', 'system-ui']
+        sans: ['ui-sans-serif', 'system-ui'],
       },
       colors: {
         'french-blue': '#0076ba',
@@ -13,12 +11,9 @@ module.exports = {
         'azure-blue': '#E1F7FE',
         'light-gray': '#CFCFCF',
         'dark-gray': '#2b2b2b',
-        'pallete-orange': '#E49D23'
+        'pallete-orange': '#E49D23',
       },
     },
   },
-  plugins: [
-    require('tailwindcss'),
-    require('autoprefixer'),
-  ],
+  plugins: [require('tailwindcss'), require('autoprefixer')],
 }

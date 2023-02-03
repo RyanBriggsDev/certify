@@ -1,14 +1,7 @@
 import Head from 'next/head'
-import Container from '@/components/Container'
-import PageSpacing from '@/components/PageSpacing'
-import Header from '@/components/Header'
-import BtnPrimary from '@/components/buttons/BtnPrimary'
-
-import { useRouter } from 'next/router'
+import Container from '@/components/ContentAlignment/Container'
 
 export default function Home() {
-  const router = useRouter()
-
   return (
     <>
       <Head>
@@ -57,39 +50,7 @@ export default function Home() {
           content="#ffffff"
         />
       </Head>
-      <main>
-        <PageSpacing>
-          <Container>
-            <Header
-              h1Text="Welcome to Certify"
-              className="items-center text-center"
-            />
-            <div className="grid grid-cols-1 items-center justify-center gap-3 sm:grid-cols-2 md:grid-cols-3">
-              <BtnPrimary
-                btnText="Register"
-                width="w-full"
-                btnOnClick={() =>
-                  router.push('/register')
-                }
-              />
-              <BtnPrimary
-                btnText="Sign In"
-                width="w-full"
-                btnOnClick={() =>
-                  router.push('/signin')
-                }
-              />
-              <BtnPrimary
-                btnText="Dashboard"
-                width="w-full"
-                btnOnClick={() =>
-                  router.push('/app')
-                }
-              />
-            </div>
-          </Container>
-        </PageSpacing>
-      </main>
+      <Container>eggs</Container>
     </>
   )
 }
