@@ -2,23 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @font-face {
-    font-family: newake-400;
-    src: url('../assets//fonts/newake-400.otf');
+  font-family: newake-400;
+  src: url('../assets//fonts/newake-400.otf');
 }
 
-.font-newake {font-family: newake-400}
+.font-newake {
+  font-family: newake-400;
+}
 
 @layer base {
-    .font-outline-1 {
-      -webkit-text-stroke: 1px black;
-    }
-    .font-outline-4 {
-      -webkit-text-stroke: 4px black;
-    }
+  .font-outline-1 {
+    -webkit-text-stroke: 1px black;
   }
+  .font-outline-4 {
+    -webkit-text-stroke: 4px black;
+  }
+}
 
-  .webkit-bg-clip-text {
-    -webkit-background-clip: text;
-  }
+.webkit-bg-clip-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+}

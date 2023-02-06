@@ -1,26 +1,24 @@
-
-
-export default function H3 ({ children, className }: any) {
-    return (
-        <h1 className={`
-            text-xl
-            text-french-blue
-            md:text-3xl
-            lg:text-4xl
+export default function H3({ children, className }: any) {
+  return (
+    <h1
+      className={`
             font-newake
-            py-1
-            font-newake 
-            bg-clip-text 
+            font-newake
             webkit-bg-clip-text
-            text-transparent 
-            bg-gradient-to-r
-            tracking-wide
-            from-french-blue to-cyan-500
-            w-fit            
             dark:font-outline-1
+            w-fit
+            bg-gradient-to-r 
+            from-french-blue 
+            to-cyan-500
+            bg-clip-text 
+            text-xl
+            tracking-wide
+            text-french-blue text-transparent
+            md:text-3xl            
+            lg:text-4xl
             ${className ? className : ''}`}
-        >
-            {children}
-        </h1>
-    )
+    >
+      {children}
+    </h1>
+  )
 }

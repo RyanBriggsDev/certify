@@ -1,25 +1,23 @@
-
-
-export default function H3 ({ children, className }: any) {
-    return (
-        <h1 className={`
-            text-3xl
-            md:text-5xl
-            lg:text-6xl
+export default function H3({ children, className }: any) {
+  return (
+    <h1
+      className={`
             font-newake
-            py-2
-            font-newake 
-            bg-clip-text 
+            font-newake
             webkit-bg-clip-text
-            text-transparent 
-            bg-gradient-to-r
-            tracking-wide
-            from-french-blue to-cyan-500
-            w-fit            
             dark:font-outline-1
+            w-fit 
+            bg-gradient-to-r 
+            from-french-blue
+            to-cyan-500 
+            bg-clip-text
+            text-3xl
+            tracking-wide text-transparent
+            md:text-5xl            
+            lg:text-6xl
             ${className ? className : ''}`}
-        >
-            {children}
-        </h1>
-    )
+    >
+      {children}
+    </h1>
+  )
 }
