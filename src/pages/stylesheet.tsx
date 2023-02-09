@@ -8,10 +8,13 @@ import Button from '@/components/Button'
 import Container from '@/components/ContentAlignment/Container'
 import Card from '@/components/Card'
 import Form from '@/components/form/Form'
+import Modal from '@/components/Modal'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 export default function Stylesheet() {
   const router = useRouter()
+  const [modalOpen, setModalOpen] = useState(false)
 
   const onSubmitHandler = () => {
     alert('You pass formContent and an onSubmit')
@@ -95,6 +98,24 @@ export default function Stylesheet() {
           btnStyle={{ width: '100%' }}
           onSubmit={onSubmitHandler}
         />
+      </Container>
+
+      <Container>
+        <hr />
+      </Container>
+
+      <Container className="flex flex-col gap-3">
+        <H3>Modal</H3>
+        <Button onClick={() => setModalOpen(!modalOpen)}>Open Modal</Button>
+        <Modal close={() => setModalOpen(false)} modalOpen={modalOpen}>
+          <div className="flex h-full w-full flex-col items-center justify-center gap-3">
+            <H3>This is our modal</H3>
+            <p>
+              You'll need a button to open, state, modalOpen and close prop.
+            </p>
+            <p>Then you can do whatever you want with it.</p>
+          </div>
+        </Modal>
       </Container>
     </>
   )
