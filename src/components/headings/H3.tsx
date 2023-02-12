@@ -1,6 +1,6 @@
 export default function H3({ children, className }: any) {
   return (
-    <h1
+    <h3
       className={`
             font-newake
             font-newake
@@ -15,9 +15,9 @@ export default function H3({ children, className }: any) {
             tracking-wide text-transparent
             md:text-5xl            
             lg:text-6xl
-            ${className ? className : ''}`}
+            ${className ? className : ""}`}
     >
       {children}
-    </h1>
-  )
+    </h3>
+  );
 }

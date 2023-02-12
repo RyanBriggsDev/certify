@@ -1,6 +1,6 @@
-export default function H3({ children, className }: any) {
+export default function H5({ children, className }: any) {
   return (
-    <h1
+    <h5
       className={`
             font-newake
             font-newake
@@ -16,9 +16,9 @@ export default function H3({ children, className }: any) {
             text-french-blue text-transparent
             md:text-3xl            
             lg:text-4xl
-            ${className ? className : ''}`}
+            ${className ? className : ""}`}
     >
       {children}
-    </h1>
-  )
+    </h5>
+  );
 }
