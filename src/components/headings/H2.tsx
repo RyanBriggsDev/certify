@@ -1,6 +1,6 @@
 export default function H2({ children, className }: any) {
   return (
-    <h1
+    <h2
       className={`
             font-newake
             font-newake
@@ -14,9 +14,9 @@ export default function H2({ children, className }: any) {
             text-4xl text-transparent
             md:text-6xl
             lg:text-7xl
-            ${className ? className : ''}`}
+            ${className ? className : ""}`}
     >
       {children}
-    </h1>
-  )
+    </h2>
+  );
 }
