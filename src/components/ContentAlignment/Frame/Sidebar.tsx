@@ -1,11 +1,9 @@
 import Image from 'next/image'
 import profilePic from '@/assets/profilePic.png'
-import courses64 from '@/assets/sidebar/courses64.png'
-import dashboard48 from '@/assets/sidebar/dashboard48.png'
-import candidates66 from '@/assets/sidebar/candidates66.png'
-import customers64 from '@/assets/sidebar/customers64.png'
-import reports58 from '@/assets/sidebar/reports58.png'
-import { useState, useEffect } from 'react'
+
+import Icon from '@/components/Icon'
+
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 
 // sidenav links
@@ -13,27 +11,27 @@ const links = [
   {
     name: 'Dashboard',
     link: '/dashboard',
-    img: dashboard48,
+    icon: 'BiGridAlt',
   },
   {
     name: 'Courses',
     link: '/courses',
-    img: courses64,
+    icon: 'BiDesktop',
   },
   {
     name: 'Candidates',
     link: '/candidates',
-    img: candidates66,
+    icon: 'BiGroup',
   },
   {
     name: 'Customers',
     link: '/customers',
-    img: customers64,
+    icon: 'BiSpreadsheet',
   },
   {
     name: 'Reports',
     link: '/reports',
-    img: reports58,
+    icon: 'BiBarChartAlt2',
   },
 ]
 
@@ -132,13 +130,7 @@ function SidebarLink() {
               : 'bg-white hover:bg-french-blue hover:text-white dark:bg-dark-gray'
           }`}
         >
-          <Image
-            className="invert dark:invert-0"
-            src={item.img}
-            width={24}
-            height={24}
-            alt={item.name}
-          />
+          <Icon icon={item.icon} size="xl" />
           <h3 className="inline">{item.name}</h3>
         </li>
       ))}
