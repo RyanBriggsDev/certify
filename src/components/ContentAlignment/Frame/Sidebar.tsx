@@ -1,9 +1,6 @@
 import Image from 'next/image'
 import profilePic from '@/assets/profilePic.png'
-
 import Icon from '@/components/Icon'
-
-import { useState } from 'react'
 import { useRouter } from 'next/router'
 
 // sidenav links
@@ -35,30 +32,28 @@ const links = [
   },
 ]
 
-export default function Sidebar() {
-  const [open, setOpen] = useState(false)
-
+export default function Sidebar({ toggleSidebar, sidebarOpen }) {
   return (
     <>
-      {!open && (
+      {!sidebarOpen && (
         <SidebarArrow
-          setOpen={setOpen}
-          open={open}
+          toggleSidebar={toggleSidebar}
+          sidebarOpen={sidebarOpen}
           className="top-[50%] -left-1"
         />
       )}
       <aside
         id="sidebar"
         className={`${
-          open
-            ? 'w-screen sm:w-60'
+          sidebarOpen
+            ? 'w-screen sm:w-60 md:top-0'
             : 'w-0 scale-0 sm:w-0 sm:scale-0 md:scale-100'
-        } fixed left-0 top-0 flex min-h-screen flex-col justify-between bg-white/[0.6] p-4 shadow-md duration-300 dark:bg-zinc-900/[0.9] md:static md:w-80`}
+        } fixed left-0 top-0 z-50 flex min-h-screen flex-col justify-between bg-white/[0.6] p-4 shadow-md duration-300 dark:bg-zinc-900/[0.9] md:static md:w-80`}
       >
         <SidebarProfile></SidebarProfile>
         <SidebarArrow
-          setOpen={setOpen}
-          open={open}
+          toggleSidebar={toggleSidebar}
+          sidebarOpen={sidebarOpen}
           className="-right-1 top-[50%]"
         />
         <SidebarLinks>
@@ -70,14 +65,14 @@ export default function Sidebar() {
   )
 }
 
-function SidebarArrow({ setOpen, open, className }) {
+function SidebarArrow({ toggleSidebar, sidebarOpen, className }) {
   return (
     <div
       className={`font absolute cursor-pointer rounded bg-sapph-blue p-2 text-2xl text-white md:hidden ${
-        open && 'rotate-180'
+        sidebarOpen && 'rotate-180'
       }
       ${className && className}`}
-      onClick={() => setOpen(!open)}
+      onClick={() => toggleSidebar()}
     >
       &#x2192;
     </div>
