@@ -30,7 +30,7 @@ export default function Nav({ toggleNav, navOpen, frame }: any) {
   // framed pages
   if (frame) {
     return (
-      <nav className="relative flex h-14 items-center justify-center bg-white p-2 text-black dark:bg-dark-gray dark:text-white">
+      <nav className="relative flex h-14 items-center justify-center rounded bg-white p-2 text-black shadow-md dark:bg-dark-gray dark:text-white">
         <Container padding="p-0">
           <div className="flex items-center justify-between">
             <div id="nav-left">
@@ -64,7 +64,7 @@ export default function Nav({ toggleNav, navOpen, frame }: any) {
 
   // non framed pages
   return (
-    <nav className="relative flex h-14 items-center justify-center p-2 text-black dark:bg-dark-gray dark:text-white">
+    <nav className="relative flex h-14 items-center justify-center rounded bg-white/[0.6] p-2 text-black dark:bg-dark-gray dark:text-white">
       <Container padding="p-0">
         <div className="flex items-center justify-between">
           <div id="nav-left">
@@ -132,7 +132,7 @@ function HamburgerMenu({ navOpen, children }: any) {
         id="nav-menu"
         className={`${
           navOpen ? ' scale-100' : 'scale-0'
-        } mx-auto flex w-2/3 origin-top-right flex-col items-center justify-center gap-2 rounded bg-white p-2 duration-150 dark:bg-dark-gray`}
+        } mx-auto flex w-full origin-top-right flex-col items-center justify-center gap-2 rounded bg-white p-2 shadow-md duration-150 dark:bg-dark-gray md:w-2/3`}
       >
         {children}
       </ul>

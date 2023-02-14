@@ -23,7 +23,7 @@ export default function Frame({ children }: any) {
         toggleSidebar={() => handleSidebarToggle()}
         sidebarOpen={sidebarOpen}
       />
-      <div className="flex w-full flex-col">
+      <div className="flex w-full flex-col p-4">
         <Nav
           toggleNav={() => handleNavToggle()}
           navOpen={navOpen}
