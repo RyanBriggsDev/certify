@@ -1,33 +1,38 @@
-import Hero from "@/components/Hero";
-import H1 from "@/components/headings/H1";
-import H2 from "@/components/headings/H2";
-import H3 from "@/components/headings/H3";
-import H4 from "@/components/headings/H4";
-import H5 from "@/components/headings/H5";
-import Button from "@/components/Button";
-import Container from "@/components/ContentAlignment/Container";
-import Card from "@/components/Card";
-import Form from "@/components/form/Form";
-import Modal from "@/components/Modal";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import Alert from "@/components/Alert";
-import Loading from "@/components/Loading";
-import Icon from "@/components/Icon";
+import Hero from '@/components/Hero'
+import H1 from '@/components/headings/H1'
+import H2 from '@/components/headings/H2'
+import H3 from '@/components/headings/H3'
+import H4 from '@/components/headings/H4'
+import H5 from '@/components/headings/H5'
+import Button from '@/components/Button'
+import Container from '@/components/ContentAlignment/Container'
+import Card from '@/components/Card'
+import Form from '@/components/form/Form'
+import Modal from '@/components/Modal'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import Alert from '@/components/Alert'
+import Loading from '@/components/Loading'
+import Icon from '@/components/Icon'
 
 export default function Stylesheet() {
-  const router = useRouter();
-  const [modalOpen, setModalOpen] = useState(false);
+  const router = useRouter()
+  const [modalOpen, setModalOpen] = useState(false)
 
   const onSubmitHandler = () => {
-    alert("You pass formContent and an onSubmit");
-  };
+    alert('You pass formContent and an onSubmit')
+  }
   return (
     <>
-      <Hero bg="bg-zinc-700" containerClassName="flex flex-col justify-center items-center text-center gap-5">
+      <Hero
+        bg="bg-zinc-700"
+        containerClassName="flex flex-col justify-center items-center text-center gap-5"
+      >
         <H1>StyleSheet</H1>
-        <p className="text-lg text-white md:text-2xl">Welcome to the Certify StyleSheet</p>
-        <Button width="w-1/2 md:w-1/4" onClick={() => router.push("/")}>
+        <p className="text-lg text-white md:text-2xl">
+          Welcome to the Certify StyleSheet
+        </p>
+        <Button width="w-1/2 md:w-1/4" onClick={() => router.push('/')}>
           Home
         </Button>
       </Hero>
@@ -65,7 +70,7 @@ export default function Stylesheet() {
           <Card>This is a card</Card>
           <Card
             tinted
-            onClick={() => alert("you can press buttons!")}
+            onClick={() => alert('you can press buttons!')}
             bg="bg-green-300"
             color="text-black"
             className="flex flex-col items-center justify-center gap-3 hover:text-red-500"
@@ -78,7 +83,7 @@ export default function Stylesheet() {
             bg="bg-yellow-100"
             color="text-yellow-500"
             className="flex justify-end py-5 line-through hover:underline"
-            onClick={() => alert("Suprise!")}
+            onClick={() => alert('Suprise!')}
           >
             That does not mean you should
           </Card>
@@ -91,7 +96,11 @@ export default function Stylesheet() {
 
       <Container className="flex flex-col gap-3">
         <H3>Forms</H3>
-        <Form formContent={formContent} btnStyle={{ width: "100%" }} onSubmit={onSubmitHandler} />
+        <Form
+          formContent={formContent}
+          btnStyle={{ width: '100%' }}
+          onSubmit={onSubmitHandler}
+        />
       </Container>
 
       <Container>
@@ -104,7 +113,9 @@ export default function Stylesheet() {
         <Modal close={() => setModalOpen(false)} modalOpen={modalOpen}>
           <div className="flex h-full w-full flex-col items-center justify-center gap-3">
             <H3>This is our modal</H3>
-            <p>You'll need a button to open, state, modalOpen and close prop.</p>
+            <p>
+              You'll need a button to open, state, modalOpen and close prop.
+            </p>
             <p>Then you can do whatever you want with it.</p>
           </div>
         </Modal>
@@ -117,12 +128,14 @@ export default function Stylesheet() {
       <Container>
         <H3>Alert</H3>
         <p className="p-2 dark:text-white">
-          Alerts will autodismiss by default (after 5 seconds) but this can be disabled with the autoDismiss
-          prop. A heading is required but a body is optional via the text prop.
+          Alerts will autodismiss by default (after 5 seconds) but this can be
+          disabled with the autoDismiss prop. A heading is required but a body
+          is optional via the text prop.
         </p>
         <p className="p-2 dark:text-white">
-          Alerts should be controlled by useContext for ease of use. Adding to top of the context section of
-          the Frame component and controlling through context will provide easy user feedback.
+          Alerts should be controlled by useContext for ease of use. Adding to
+          top of the context section of the Frame component and controlling
+          through context will provide easy user feedback.
         </p>
         <Alert color="primary" heading="General alert" autoDismiss={false} />
         <Alert color="light" heading="Light alert" />
@@ -137,8 +150,9 @@ export default function Stylesheet() {
       <Container>
         <H3>Loading</H3>
         <p className="p-2 dark:text-white">
-          Size can either be "sm" or "full". Default size is full which takes up the height of the screen.
-          "sm" size is designed to be used in single component "full" is designed to be used in a page.
+          Size can either be "sm" or "full". Default size is full which takes up
+          the height of the screen. "sm" size is designed to be used in single
+          component "full" is designed to be used in a page.
         </p>
         <p className="p-2 dark:text-white">
           Color is "fill-french-blue" by default but can be passed any color.
@@ -160,9 +174,10 @@ export default function Stylesheet() {
       <Container>
         <H3>Icons</H3>
         <p className="p-2 dark:text-white">
-          Icons take in an icon type of any string value from the BoxIcons set. Any size can be optionally be
-          added, the default is 'md'. Color can be added as optional string as well with the default being
-          black (or white in dark mode)
+          Icons take in an icon type of any string value from the BoxIcons set.
+          Any size can be optionally be added, the default is 'md'. Color can be
+          added as optional string as well with the default being black (or
+          white in dark mode)
         </p>
         <div className="flex place-items-center justify-around">
           <Icon icon="BiBarChartAlt2" size="5xl" />
@@ -177,36 +192,36 @@ export default function Stylesheet() {
         </div>
       </Container>
     </>
-  );
+  )
 }
 
 const formContent = [
   {
-    title: "Sign In to Certify",
-    desc: "Log in to get started",
+    title: 'Sign In to Certify',
+    desc: 'Log in to get started',
     inputs: [
       {
-        label: "Email",
-        type: "text",
-        name: "email",
-        placeholder: "r@certify.com",
+        label: 'Email',
+        type: 'text',
+        name: 'email',
+        placeholder: 'r@certify.com',
         required: true,
       },
       {
-        label: "Password",
-        type: "password",
-        name: "password",
-        placeholder: "password",
+        label: 'Password',
+        type: 'password',
+        name: 'password',
+        placeholder: 'password',
         required: true,
       },
     ],
     button: {
-      text: "Submit",
-      type: "primary",
+      text: 'Submit',
+      type: 'primary',
     },
     redirect: {
-      text: "No Account? Register.",
-      link: "/register",
+      text: 'No Account? Register.',
+      link: '/register',
     },
   },
-];
+]

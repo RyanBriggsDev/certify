@@ -1,11 +1,6 @@
 import Image from 'next/image'
 import profilePic from '@/assets/profilePic.png'
-import courses64 from '@/assets/sidebar/courses64.png'
-import dashboard48 from '@/assets/sidebar/dashboard48.png'
-import candidates66 from '@/assets/sidebar/candidates66.png'
-import customers64 from '@/assets/sidebar/customers64.png'
-import reports58 from '@/assets/sidebar/reports58.png'
-import { useState, useEffect } from 'react'
+import Icon from '@/components/Icon'
 import { useRouter } from 'next/router'
 
 // sidenav links
@@ -13,54 +8,52 @@ const links = [
   {
     name: 'Dashboard',
     link: '/dashboard',
-    img: dashboard48,
+    icon: 'BiGridAlt',
   },
   {
     name: 'Courses',
     link: '/courses',
-    img: courses64,
+    icon: 'BiDesktop',
   },
   {
     name: 'Candidates',
     link: '/candidates',
-    img: candidates66,
+    icon: 'BiGroup',
   },
   {
     name: 'Customers',
     link: '/customers',
-    img: customers64,
+    icon: 'BiSpreadsheet',
   },
   {
     name: 'Reports',
     link: '/reports',
-    img: reports58,
+    icon: 'BiBarChartAlt2',
   },
 ]
 
-export default function Sidebar() {
-  const [open, setOpen] = useState(false)
-
+export default function Sidebar({ toggleSidebar, sidebarOpen }) {
   return (
     <>
-      {!open && (
+      {!sidebarOpen && (
         <SidebarArrow
-          setOpen={setOpen}
-          open={open}
+          toggleSidebar={toggleSidebar}
+          sidebarOpen={sidebarOpen}
           className="top-[50%] -left-1"
         />
       )}
       <aside
         id="sidebar"
         className={`${
-          open
-            ? 'w-screen sm:w-60'
+          sidebarOpen
+            ? 'w-screen sm:w-60 md:top-0'
             : 'w-0 scale-0 sm:w-0 sm:scale-0 md:scale-100'
-        } fixed left-0 top-0 flex min-h-screen flex-col justify-between bg-white/[0.6] p-4 shadow-md duration-300 dark:bg-zinc-900/[0.9] md:static md:w-80`}
+        } fixed left-0 top-0 z-50 flex min-h-screen flex-col justify-between bg-white/[0.6] p-4 shadow-md duration-300 dark:bg-zinc-900/[0.9] md:static md:w-80`}
       >
         <SidebarProfile></SidebarProfile>
         <SidebarArrow
-          setOpen={setOpen}
-          open={open}
+          toggleSidebar={toggleSidebar}
+          sidebarOpen={sidebarOpen}
           className="-right-1 top-[50%]"
         />
         <SidebarLinks>
@@ -72,14 +65,14 @@ export default function Sidebar() {
   )
 }
 
-function SidebarArrow({ setOpen, open, className }) {
+function SidebarArrow({ toggleSidebar, sidebarOpen, className }) {
   return (
     <div
       className={`font absolute cursor-pointer rounded bg-sapph-blue p-2 text-2xl text-white md:hidden ${
-        open && 'rotate-180'
+        sidebarOpen && 'rotate-180'
       }
       ${className && className}`}
-      onClick={() => setOpen(!open)}
+      onClick={() => toggleSidebar()}
     >
       &#x2192;
     </div>
@@ -132,13 +125,7 @@ function SidebarLink() {
               : 'bg-white hover:bg-french-blue hover:text-white dark:bg-dark-gray'
           }`}
         >
-          <Image
-            className="invert dark:invert-0"
-            src={item.img}
-            width={24}
-            height={24}
-            alt={item.name}
-          />
+          <Icon icon={item.icon} size="xl" />
           <h3 className="inline">{item.name}</h3>
         </li>
       ))}

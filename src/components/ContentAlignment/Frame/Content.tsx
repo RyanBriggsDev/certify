@@ -1,3 +1,3 @@
-export default function Content(props: any) {
-  return <div id="content">Content</div>
+export default function Content({ children }) {
+  return <div id="content">{children}</div>
 }

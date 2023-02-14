@@ -3,6 +3,7 @@ import Container from '@/components/ContentAlignment/Container'
 import H1 from '@/components/headings/H1'
 import Button from '@/components/Button'
 import { useRouter } from 'next/router'
+import Nav from '@/components/ContentAlignment/Frame/Nav'
 
 export default function Home() {
   const router = useRouter()
@@ -35,6 +36,7 @@ export default function Home() {
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
+      <Nav />
       <Container className="flex h-screen items-center justify-center">
         <div className="flex flex-col items-center justify-center gap-4">
           <H1>Welcome to Certify</H1>
