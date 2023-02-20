@@ -52,3 +52,20 @@ export const updateCandidate = z.object({
   telephoneNumber: z.string().optional(),
   company: z.string().optional(),
 });
+
+export const createResult = z.object({
+  courseId: z.string({ required_error: "CourseID", invalid_type_error: "CourseID must be a string" }),
+  candidateId: z.string({
+    required_error: "CandidateID",
+    invalid_type_error: "CandidateID must be a string",
+  }),
+  passdate: z.coerce.date().optional(),
+  expiryDate: z.coerce.date().optional(),
+});
+
+export const updateResult = z.object({
+  courseId: z.string().optional(),
+  candidateId: z.string().optional(),
+  passdate: z.coerce.date().optional(),
+  expiryDate: z.coerce.date().optional(),
+});
