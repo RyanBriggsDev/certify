@@ -1,3 +1,7 @@
 export default function Content({ children }) {
-  return <div id="content">{children}</div>
+  return (
+    <div className="flex h-full flex-col justify-center" id="content">
+      {children}
+    </div>
+  )
 }
