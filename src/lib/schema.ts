@@ -24,6 +24,8 @@ export const createCourse = z.object({
   startDate: z.coerce.date().optional(),
   endDate: z.coerce.date().optional(),
   adminId: z.string(),
+  active: z.boolean().optional(),
+  info: z.object({}).passthrough().optional(),
 });
 
 export const updateCourse = z.object({
@@ -34,6 +36,7 @@ export const updateCourse = z.object({
   startDate: z.coerce.date().optional(),
   endDate: z.coerce.date().optional(),
   active: z.boolean().optional(),
+  info: z.object({}).passthrough().optional(),
 });
 
 export const createCandidate = z.object({
