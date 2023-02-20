@@ -101,8 +101,8 @@ const formContent = [
       },
     ],
     button: {
-      btnText: 'Submit',
-      btnType: 'primary',
+      text: 'Submit',
+      type: 'primary',
     },
     redirect: {
       text: 'No Account? Register.',

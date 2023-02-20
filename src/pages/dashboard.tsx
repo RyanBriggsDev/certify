@@ -3,9 +3,11 @@ import Frame from '@/components/ContentAlignment/Frame/Frame'
 import ProfileLayout from '@/components/ContentAlignment/Frame/ProfileLayout'
 import Protected from '@/components/Protected'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 export default function dashboard() {
   const { data: session, status } = useSession()
+  const router = useRouter()
 
   return (
     <Protected>
@@ -28,6 +30,7 @@ export default function dashboard() {
           <Card
             bg="bg-white dark:bg-dark-gray hover:bg-white/[0.6] dark:hover:bg-dark-gray/[0.6]"
             className="col-span-6 cursor-pointer duration-300 ease-in-out md:col-span-2 md:row-span-2"
+            onClick={() => router.push('/courses')}
           >
             Create Course
           </Card>
