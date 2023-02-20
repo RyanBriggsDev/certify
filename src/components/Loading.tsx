@@ -1,13 +1,17 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 
 export default function Loading(props: LoadingProps) {
   return (
-    <div className={`flex ${props.size === "sm" ? null : "h-screen"} items-center justify-center`}>
+    <div
+      className={`flex ${
+        props.size === 'sm' ? null : 'h-screen'
+      } items-center justify-center`}
+    >
       <svg
         role="status"
-        className={`mr-2  ${props.size === "sm" ? "h-6 w-6" : "h-24 w-24"} animate-spin ${
-          props.color
-        } text-light-gray dark:text-dark-gray`}
+        className={`mr-2  ${
+          props.size === 'sm' ? 'h-6 w-6' : 'h-24 w-24'
+        } animate-spin ${props.color} text-light-gray dark:text-dark-gray`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -22,20 +26,20 @@ export default function Loading(props: LoadingProps) {
         />
       </svg>
     </div>
-  );
+  )
 }
 
 type LoadingProps = {
-  size?: "sm" | "full";
-  color?: string;
-};
+  size?: 'sm' | 'full'
+  color?: string
+}
 
 Loading.propTypes = {
-  size: PropTypes.oneOf(["sm", "full"]),
+  size: PropTypes.oneOf(['sm', 'full']),
   color: PropTypes.string,
-};
+}
 
 Loading.defaultProps = {
-  size: "full",
-  color: "fill-french-blue",
-};
+  size: 'full',
+  color: 'fill-french-blue',
+}

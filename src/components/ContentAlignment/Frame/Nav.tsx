@@ -113,7 +113,7 @@ function HamburgerButton({ handleClick, navOpen }: any) {
       ></div>
       <div
         className={`my-[5px] h-[2px] w-6 bg-black duration-300 dark:bg-white ${
-          navOpen && 'translate-x-[20vw]'
+          navOpen && 'translate-x-[-100vw]'
         }`}
       ></div>
       <div
