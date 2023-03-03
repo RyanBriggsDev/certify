@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SyntheticEvent, useState, useContext } from "react";
 import Protected from "@/components/Protected";
 import Frame from "@/components/ContentAlignment/Frame/Frame";
 import Card from "@/components/Card";
@@ -10,6 +10,8 @@ import H5 from "@/components/headings/H5";
 import H6 from "@/components/headings/H6";
 import { getCourses } from "../api/course";
 import type { Course } from "@/lib/types";
+import { useRouter } from "next/router";
+import { AlertContext } from "@/lib/AlertContext";
 
 type CoursesProps = {
   courses: Course[];
@@ -44,6 +46,8 @@ export async function getServerSideProps(context) {
 function CourseCard(props) {
   const data: Course = props.data;
   const [modalOpen, setModalOpen] = useState(false);
+  const router = useRouter();
+  const { alert, setAlert } = useContext(AlertContext) as any;
   let iconType;
   switch (data.location) {
     case "classroom":
@@ -59,6 +63,23 @@ function CourseCard(props) {
       iconType = "BiWorld";
       break;
   }
+
+  async function handleDelete(e: SyntheticEvent) {
+    try {
+      const res = await fetch(`/api/course/${data.id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        throw new Error();
+      }
+      router.reload();
+    } catch (err) {
+      setAlert("Error: Something went wrong and course was not deleted. Please try again.");
+      setModalOpen(false);
+    }
+  }
+
   return (
     <Card>
       <div className="relative h-full rounded-md border border-gray-100 p-4 shadow-xl sm:p-6 lg:p-8">
@@ -97,7 +118,7 @@ function CourseCard(props) {
                   database.
                 </p>
                 <div className="flex gap-5">
-                  <Button type="orange" onClick={() => console.log("Deleting...")}>
+                  <Button type="orange" onClick={handleDelete}>
                     Confirm
                   </Button>
                   <Button type="light" onClick={() => setModalOpen(false)}>
