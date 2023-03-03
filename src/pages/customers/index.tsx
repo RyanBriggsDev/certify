@@ -1,5 +1,5 @@
-import Frame from '@/components/ContentAlignment/Frame/Frame'
+import Frame from "@/components/ContentAlignment/Frame/Frame";
 
 export default function customers() {
-  return <Frame>Customers</Frame>
+  return <Frame>Customers</Frame>;
 }

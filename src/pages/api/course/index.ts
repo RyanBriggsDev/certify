@@ -41,3 +41,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
   }
 }
+
+export const getCourses = async (ctx) => {
+  const token = await utils.checkAuth(ctx.req, ctx.res);
+  try {
+    const courses = await utils.prisma.course.findMany({
+      where: {
+        adminId: token?.sub,
+      },
+    });
+    return courses;
+  } catch (error) {
+    return error;
+  }
+};
