@@ -30,6 +30,7 @@ model Course {
   admin           Admin       @relation(fields: [adminId], references: [id], onDelete: Cascade)
   adminId         String      // relation scalar field  (used in the `@relation` attribute above)
   results         Result[] 
+  info            Json?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
 }

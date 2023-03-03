@@ -24,6 +24,8 @@ export const createCourse = z.object({
   startDate: z.coerce.date().optional(),
   endDate: z.coerce.date().optional(),
   adminId: z.string(),
+  active: z.boolean().optional(),
+  info: z.object({}).passthrough().optional(),
 });
 
 export const updateCourse = z.object({
@@ -34,6 +36,7 @@ export const updateCourse = z.object({
   startDate: z.coerce.date().optional(),
   endDate: z.coerce.date().optional(),
   active: z.boolean().optional(),
+  info: z.object({}).passthrough().optional(),
 });
 
 export const createCandidate = z.object({
@@ -51,4 +54,21 @@ export const updateCandidate = z.object({
   address: z.string().optional(),
   telephoneNumber: z.string().optional(),
   company: z.string().optional(),
+});
+
+export const createResult = z.object({
+  courseId: z.string({ required_error: "CourseID", invalid_type_error: "CourseID must be a string" }),
+  candidateId: z.string({
+    required_error: "CandidateID",
+    invalid_type_error: "CandidateID must be a string",
+  }),
+  passdate: z.coerce.date().optional(),
+  expiryDate: z.coerce.date().optional(),
+});
+
+export const updateResult = z.object({
+  courseId: z.string().optional(),
+  candidateId: z.string().optional(),
+  passdate: z.coerce.date().optional(),
+  expiryDate: z.coerce.date().optional(),
 });
