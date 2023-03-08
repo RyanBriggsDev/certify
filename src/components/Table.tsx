@@ -1,43 +1,93 @@
+import { useState } from 'react'
 import { useRouter } from 'next/router'
-import Button from './Button'
+import Icon from './Icon'
 
-export default function Table({ data, clickable }: TableProps) {
+export default function Table({
+  data,
+  clickable,
+  onClick,
+  pageNumber = 0,
+  pageSize = 10,
+}: TableProps) {
   const tableHeads = Object.keys(data[0])
   const router = useRouter()
   const { pathname } = router
 
+  const [page, setPage] = useState(pageNumber)
+
+  const handleClick = (obj) => {
+    router.push(`/${pathname}/${obj.id}`)
+  }
+
   return (
     <div className="overflow-x-auto">
       {data.length > 0 && (
-        <table className="w-full table-auto text-center">
-          <thead>
-            <tr>
-              {tableHeads.map((head, i) => (
-                <th className="bg-sapph-blue p-3" key={i}>
-                  {head.toUpperCase()}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {Object.values(data).map((obj, index) => (
-              <tr
-                key={index}
-                // data object requires an id key when using table clickable prop
-              >
-                {Object.values(obj).map((value, index2) =>
-                  value === 'delete' ? (
-                    <td className="bg-dark-gray py-1 px-3">x</td>
-                  ) : (
-                    <td className="bg-dark-gray py-1 px-3" key={index2}>
-                      {value}
-                    </td>
-                  )
-                )}
+        <>
+          <table className="lg:text-md w-full table-auto bg-dark-gray text-left text-sm md:text-base">
+            <thead>
+              <tr>
+                {tableHeads.map((head, i) => (
+                  <th className="bg-sapph-blue p-1 text-center md:p-3" key={i}>
+                    {head.toUpperCase()}
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="">
+              {Object.values(
+                data.slice(pageSize * page, pageSize * page + pageSize)
+              ).map((obj: any, index: number) => (
+                <tr
+                  key={index}
+                  // data object requires an id key when using table clickable prop
+                >
+                  {Object.values(obj).map((value: any, index: number) =>
+                    value === 'remove' ? (
+                      <td
+                        key={index}
+                        className="flex items-center justify-center gap-1 bg-dark-gray py-1 px-1 md:gap-3 md:px-3"
+                      >
+                        <div
+                          onClick={() => onClick(obj)}
+                          className="flex h-full w-full cursor-pointer items-center justify-center"
+                        >
+                          <Icon icon="BiTrash" color="warning" size="xl" />
+                        </div>
+                      </td>
+                    ) : (
+                      <td
+                        className={`bg-dark-gray py-1 px-3 ${
+                          clickable ? 'cursor-pointer' : ''
+                        }`}
+                        onClick={() => handleClick(obj)}
+                        key={index}
+                      >
+                        {value}
+                      </td>
+                    )
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="flex w-full items-center justify-center bg-dark-gray py-3">
+            {page - 1 > -1 && (
+              <button onClick={() => setPage(page - 1 > -1 ? page - 1 : page)}>
+                Back
+              </button>
+            )}
+            <label style={{ padding: '0 1em' }}>{page + 1}</label>
+            {page + 1 < data.length / pageSize && (
+              <button
+                onClick={() => {
+                  setPage(page + 1 < data.length / pageSize ? page + 1 : page)
+                }}
+              >
+                Next
+              </button>
+            )}
+          </div>
+        </>
       )}
     </div>
   )
@@ -46,4 +96,7 @@ export default function Table({ data, clickable }: TableProps) {
 type TableProps = {
   data: any
   clickable: boolean
+  onClick: any
+  pageNumber?: number
+  pageSize?: number
 }

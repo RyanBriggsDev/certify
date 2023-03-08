@@ -8,17 +8,15 @@ export default function candidates(props: CandidatesProps) {
     return {
       name: att.name,
       company: att.company,
-      tel: att.telephoneNumber,
       id: att.id,
-      delete: 'delete',
+      // remove: 'remove',
     }
   })
 
-  console.log(data)
   return (
     <Frame>
       <H1>Candidates</H1>
-      <Table data={data} clickable />
+      <Table data={data} clickable onClick={(obj) => console.log(obj.id)} />
     </Frame>
   )
 }
