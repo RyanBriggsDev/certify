@@ -10,17 +10,23 @@ import H5 from "@/components/headings/H5";
 import H6 from "@/components/headings/H6";
 import { getCourses } from "../api/course";
 import type { Course } from "@/lib/types";
-import { useRouter } from "next/router";
 import { AlertContext } from "@/lib/AlertContext";
+import { courseLength, formatDate } from "@/lib/dates";
 
 type CoursesProps = {
   courses: Course[];
 };
 
 export default function Courses(props: CoursesProps) {
-  const cards: JSX.Element[] = props.courses.map((course, i) => {
-    return <CourseCard data={course} key={i} />;
+  const [courses, setCourses] = useState(props.courses);
+  const cards: JSX.Element[] = courses.map((course, i) => {
+    return <CourseCard data={course} key={i} removeCourse={removeCourse} />;
   });
+
+  function removeCourse(id) {
+    const filtered = courses.filter((course) => course.id != id);
+    setCourses(filtered);
+  }
 
   return (
     <Protected>
@@ -28,7 +34,7 @@ export default function Courses(props: CoursesProps) {
         <div className="py-2">
           <H2>Courses</H2>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">{cards}</div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">{cards}</div>
       </Frame>
     </Protected>
   );
@@ -46,7 +52,6 @@ export async function getServerSideProps(context) {
 function CourseCard(props) {
   const data: Course = props.data;
   const [modalOpen, setModalOpen] = useState(false);
-  const router = useRouter();
   const { alert, setAlert } = useContext(AlertContext) as any;
   let iconType;
   switch (data.location) {
@@ -73,8 +78,14 @@ function CourseCard(props) {
       if (!res.ok) {
         throw new Error();
       }
-      router.reload();
+
+      //remove from array, set alert and close modal
+      props.removeCourse(data.id);
+      setAlert("Success: Course has been successfully deleted");
+      setModalOpen(false);
     } catch (err) {
+      console.log(err);
+
       setAlert("Error: Something went wrong and course was not deleted. Please try again.");
       setModalOpen(false);
     }
@@ -91,6 +102,10 @@ function CourseCard(props) {
                 {data.type}
               </span>
             </div>
+          </div>
+          <div className="hidden justify-between pt-3 sm:flex">
+            <div>Start: {formatDate(data.startDate)}</div>
+            <div>{courseLength(data.startDate, data.endDate)} Days</div>
           </div>
           <div className="flex items-start justify-between">
             <div className="pt-4">

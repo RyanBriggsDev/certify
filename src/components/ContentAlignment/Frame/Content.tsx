@@ -4,8 +4,6 @@ import { AlertContext } from "@/lib/AlertContext";
 
 export default function Content({ children }) {
   const [alert, setAlert] = useState("");
-  console.log(alert);
-
   return (
     <AlertContext.Provider
       value={{
