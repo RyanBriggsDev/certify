@@ -8,6 +8,7 @@ export default function Table({
   onClick,
   pageNumber = 0,
   pageSize = 10,
+  width = 'w-full',
 }: TableProps) {
   const tableHeads = Object.keys(data[0])
   const router = useRouter()
@@ -23,7 +24,9 @@ export default function Table({
     <div className="overflow-x-auto">
       {data.length > 0 && (
         <>
-          <table className="lg:text-md w-full table-auto bg-dark-gray text-left text-sm md:text-base">
+          <table
+            className={`lg:text-md table-auto bg-dark-gray text-left text-sm md:text-center md:text-base ${width}`}
+          >
             <thead>
               <tr>
                 {tableHeads.map((head, i) => (
@@ -70,7 +73,9 @@ export default function Table({
               ))}
             </tbody>
           </table>
-          <div className="flex w-full items-center justify-center bg-dark-gray py-3">
+          <div
+            className={`flex items-center justify-center bg-dark-gray py-3 ${width}`}
+          >
             {page - 1 > -1 && (
               <button onClick={() => setPage(page - 1 > -1 ? page - 1 : page)}>
                 Back
@@ -95,8 +100,9 @@ export default function Table({
 
 type TableProps = {
   data: any
-  clickable: boolean
-  onClick: any
+  clickable?: boolean
+  onClick?: any
   pageNumber?: number
   pageSize?: number
+  width?: string
 }
