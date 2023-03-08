@@ -14,6 +14,8 @@ import { useState } from 'react'
 import Alert from '@/components/Alert'
 import Loading from '@/components/Loading'
 import Icon from '@/components/Icon'
+import Table from '@/components/Table'
+import { table } from 'console'
 
 export default function Stylesheet() {
   const router = useRouter()
@@ -191,9 +193,26 @@ export default function Stylesheet() {
           <Icon icon="BiShow" size="super" color="light" />
         </div>
       </Container>
+
+      <Container>
+        <hr />
+      </Container>
+
+      <Container>
+        <H3>Table</H3>
+        <Table pageSize={3} data={tableData} />
+      </Container>
     </>
   )
 }
+
+const tableData = [
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+]
 
 const formContent = [
   {
