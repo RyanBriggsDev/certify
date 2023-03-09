@@ -48,18 +48,20 @@ export default function Sidebar({ toggleSidebar, sidebarOpen }) {
           sidebarOpen
             ? 'w-screen sm:w-60 md:top-0'
             : 'w-0 scale-0 sm:w-0 sm:scale-0 md:scale-100'
-        } fixed left-0 top-0 z-50 flex min-h-screen flex-col justify-between bg-white/[0.6] p-4 shadow-md duration-300 dark:bg-zinc-900/[0.9] md:static md:w-80`}
+        } fixed left-0 top-0 z-50 flex h-full flex-col justify-between bg-white/[0.6] p-4 shadow-md duration-300 dark:bg-zinc-900/[0.9] md:sticky md:w-80`}
       >
-        <SidebarProfile></SidebarProfile>
-        <SidebarArrow
-          toggleSidebar={toggleSidebar}
-          sidebarOpen={sidebarOpen}
-          className="-right-1 top-[50%]"
-        />
-        <SidebarLinks>
-          <SidebarLink />
-        </SidebarLinks>
-        <SidebarSettings></SidebarSettings>
+        <div className="sticky top-0 flex min-h-[98vh] flex-col justify-between">
+          <SidebarProfile></SidebarProfile>
+          <SidebarArrow
+            toggleSidebar={toggleSidebar}
+            sidebarOpen={sidebarOpen}
+            className="-right-1 top-[50%]"
+          />
+          <SidebarLinks>
+            <SidebarLink />
+          </SidebarLinks>
+          <SidebarSettings></SidebarSettings>
+        </div>
       </aside>
     </>
   )
@@ -68,7 +70,7 @@ export default function Sidebar({ toggleSidebar, sidebarOpen }) {
 function SidebarArrow({ toggleSidebar, sidebarOpen, className }) {
   return (
     <div
-      className={`font absolute cursor-pointer rounded bg-sapph-blue p-2 text-2xl text-white md:hidden ${
+      className={`font absolute z-[100] cursor-pointer rounded bg-sapph-blue p-2 text-2xl text-white md:hidden ${
         sidebarOpen && 'rotate-180'
       }
       ${className && className}`}
