@@ -47,6 +47,15 @@ export const createCandidate = z.object({
   company: z.string().optional(),
   createdById: z.string(),
 });
+export const createCandidateOnClient = z.object({
+  name: z.string({
+    required_error: "Name field is required",
+  }),
+  email: z.string().optional(),
+  address: z.string().optional(),
+  telephoneNumber: z.string().optional(),
+  company: z.string().optional(),
+});
 
 export const updateCandidate = z.object({
   name: z.string().optional(),
