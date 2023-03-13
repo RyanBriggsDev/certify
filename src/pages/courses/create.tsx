@@ -4,13 +4,30 @@ import Form from '@/components/form/Form'
 import H1 from '@/components/headings/H1'
 import Loading from '@/components/Loading'
 import { useRouter } from 'next/router'
+import { AlertContext } from '@/lib/AlertContext'
+import { ZodError } from 'zod'
 
 export default function CreateCourse() {
+  return (
+    <Frame>
+      <div className="flex flex-col items-center justify-center gap-3 text-center">
+        <H1>Create Course</H1>
+        <div className="flex w-full justify-around gap-2">
+          <CreateCourseForm />
+        </div>
+      </div>
+    </Frame>
+  )
+}
+
+function CreateCourseForm() {
+  const { setAlert } = useContext(AlertContext) as any
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const handleSubmit = async (form: any) => {
+
+  async function handleSubmit(form: any) {
     if (!form.name || !form.type)
-      return alert('Please fill out all required fields.')
+      return setAlert('Please fill out required form fields.')
     try {
       setLoading(true)
       const res = await fetch('/api/course', {
@@ -23,36 +40,31 @@ export default function CreateCourse() {
       const json = await res.json()
       if (json.success) {
         router.push('/courses')
-      } else console.log('error')
+      } else
+        setAlert('Error: Uh oh something went wrong. Please reload & try again')
     } catch (error) {
-      alert('error')
       setLoading(false)
+      if (error instanceof ZodError) {
+        setAlert(error.issues[0].message)
+      } else {
+        setAlert('Error: Uh oh something went wrong. Please reload & try again')
+      }
     }
   }
-
+  if (loading) return <Loading />
   return (
-    <Frame>
-      <div className="flex flex-col items-center justify-center gap-3 text-center">
-        <H1>Create Course</H1>
-        <div className="flex w-full justify-around gap-2">
-          {loading ? (
-            <Loading />
-          ) : (
-            <Form
-              formContent={formContent}
-              formClassName="min-w-[66%] text-left"
-              onSubmit={handleSubmit}
-            />
-          )}
-        </div>
-      </div>
-    </Frame>
+    <Form
+      formContent={formContent}
+      formClassName="min-w-[66%] text-left"
+      onSubmit={handleSubmit}
+    />
   )
 }
 
 const formContent = [
   {
-    title: 'Create New Course',
+    title: 'Create a New Course',
+    desc: 'Fill out the form below to make a new course.',
     inputs: [
       {
         label: 'Course Name*',
@@ -84,12 +96,12 @@ const formContent = [
       {
         label: 'Start Date',
         type: 'date',
-        name: 'start-date',
+        name: 'startDate',
       },
       {
         label: 'End Date',
         type: 'date',
-        name: 'end-date',
+        name: 'endDate',
       },
     ],
     button: {
