@@ -1,30 +1,30 @@
-import { useState, useEffect, useContext } from "react";
-import H6 from "./headings/H6";
-import PropTypes from "prop-types";
-import Icon from "./Icon";
-import { genBgColor } from "@/lib/styleUtils";
-import { AlertContext } from "@/lib/AlertContext";
+import { useState, useEffect, useContext } from 'react'
+import { H6 } from './Headings'
+import PropTypes from 'prop-types'
+import Icon from './Icon'
+import { genBgColor } from '@/lib/styleUtils'
+import { AlertContext } from '@/lib/AlertContext'
 
 export default function Alert(props: AlertProps) {
-  const { setAlert } = useContext(AlertContext) as any;
-  const [show, setShow] = useState(true);
-  const color = genBgColor(props.color);
+  const { setAlert } = useContext(AlertContext) as any
+  const [show, setShow] = useState(true)
+  const color = genBgColor(props.color)
 
   function handleDismiss() {
-    setShow(false);
-    setAlert(null);
+    setShow(false)
+    setAlert(null)
   }
 
   useEffect(() => {
     if (props.autoDismiss) {
       setTimeout(() => {
-        setAlert(null);
-      }, 5000);
+        setAlert(null)
+      }, 5000)
     }
-  }, [props]);
+  }, [props])
 
   if (!show) {
-    return null;
+    return null
   }
 
   return (
@@ -37,23 +37,23 @@ export default function Alert(props: AlertProps) {
       </div>
       {props.text ? <div className="flex py-3">{props.text}</div> : null}
     </div>
-  );
+  )
 }
 
 type AlertProps = {
-  heading: string;
-  text?: string;
-  color: string;
-  autoDismiss?: boolean;
-};
+  heading: string
+  text?: string
+  color: string
+  autoDismiss?: boolean
+}
 
 Alert.propTypes = {
   heading: PropTypes.string.isRequired,
   text: PropTypes.string,
   color: PropTypes.string.isRequired,
   autoDismiss: PropTypes.bool,
-};
+}
 
 Alert.defaultProps = {
   autoDismiss: true,
-};
+}

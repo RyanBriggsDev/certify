@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Container from '@/components/ContentAlignment/Container'
-import H1 from '@/components/headings/H1'
+import { H1 } from '@/components/Headings'
 import Button from '@/components/Button'
 import { useRouter } from 'next/router'
 import Nav from '@/components/ContentAlignment/Frame/Nav'
