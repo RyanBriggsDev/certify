@@ -4,6 +4,7 @@ import { H1, H3 } from '@/components/Headings'
 import Icon from '@/components/Icon'
 import Card from '@/components/Card'
 import Loading from '@/components/Loading'
+import Table from '@/components/Table'
 import { formatDate } from '@/lib/dates'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
@@ -151,8 +152,24 @@ function CandidateDetails({ data }) {
       <div className="relative h-full w-full rounded-md border border-gray-100 p-4 shadow-xl sm:p-6 lg:p-8">
         <div className="flex min-h-full flex-col items-center justify-center gap-3">
           <H3>Course Candidates</H3>
+          <Table pageSize={10} data={tableData} />
         </div>
       </div>
     </Card>
   )
 }
+
+const tableData = [
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tes o Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
+]
