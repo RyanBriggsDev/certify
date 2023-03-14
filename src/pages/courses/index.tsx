@@ -113,7 +113,7 @@ function CourseCard(props) {
             <div className="pt-4">
               <H6>{data.name}</H6>
               <p className="mt-2 hidden text-sm sm:block">
-                {data.description.substring(0, 100)}
+                {data.description?.substring(0, 100)}
               </p>
             </div>
           </div>

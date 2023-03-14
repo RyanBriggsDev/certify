@@ -23,7 +23,7 @@ export default function Input({
         required={required}
         className={`${
           width ? width : 'w-full'
-        } rounded border border-zinc-700 bg-transparent p-1.5 px-3 text-black duration-300 ease-in-out focus:border-french-blue ${
+        } rounded border border-zinc-700 bg-transparent p-1.5 px-3 text-black duration-300 ease-in-out focus:border-french-blue dark:text-white ${
           className ? className : ''
         }`}
       />

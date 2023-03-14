@@ -33,8 +33,10 @@ export default function dashboard() {
             bg="bg-white dark:bg-dark-gray hover:bg-white/[0.6] dark:hover:bg-dark-gray/[0.6]"
             className="col-span-6 cursor-pointer duration-300 ease-in-out md:col-span-2 md:row-span-2"
             onClick={() => router.push('/courses')}
-          >
-            Create Course
+            <div className="mx-auto flex h-full flex-col place-items-center justify-center">
+              <Icon icon="BiDesktop" size="super" color="primary" />
+              <H6 className="text-center">Create New Course</H6>
+            </div>
           </Card>
 
           <Card
@@ -44,7 +46,7 @@ export default function dashboard() {
           >
             <div className="mx-auto flex h-full flex-col place-items-center justify-center">
               <Icon icon="BiUserPlus" size="super" color="primary" />
-              <H6>Create New Candidate</H6>
+              <H6 className="text-center">Create New Candidate</H6>
             </div>
           </Card>
 
