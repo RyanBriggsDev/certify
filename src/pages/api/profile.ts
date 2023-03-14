@@ -35,3 +35,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   }
 }
+
+export const getProfile = async (ctx) => {
+  const token = await utils.checkAuth(ctx.req, ctx.res);
+  try {
+    const profile = await utils.prisma.admin.findUnique({
+      where: {
+        id: token?.sub,
+      },
+    });
+    const filtered = await utils.filterProfile(profile);
+    return filtered;
+  } catch (error) {
+    return error;
+  }
+};
