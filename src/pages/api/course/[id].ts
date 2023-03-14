@@ -8,6 +8,11 @@ type CourseResponse = {
   data: Object[] | Object;
 };
 
+type NoCourseResponse = {
+  success: Boolean;
+  data: null;
+};
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const token = await utils.checkAuth(req, res);
   const { body, query } = req;
@@ -20,7 +25,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             id: query.id?.toString(),
             adminId: token?.sub,
           },
+          include: {
+            results: {
+              include: {
+                candidate: true,
+              },
+            },
+          },
         });
+        if (courses.length === 0) {
+          const nocourses: NoCourseResponse = { success: false, data: null };
+          res.status(200).json(nocourses);
+          return;
+        }
         // Need to return candidates so they can be added to a course
         const candidates = await utils.prisma.candidate.findMany({
           where: {
@@ -68,3 +85,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
   }
 }
+
+export const getSingleCourse = async (ctx) => {
+  const token = await utils.checkAuth(ctx.req, ctx.res);
+  try {
+    const courses = await utils.prisma.course.findMany({
+      where: {
+        id: ctx.query.id?.toString(),
+        adminId: token?.sub,
+      },
+      include: {
+        results: {
+          include: {
+            candidate: true,
+          },
+        },
+      },
+    });
+    if (courses.length === 0) {
+      const nocourses: NoCourseResponse = { success: false, data: null };
+      return nocourses;
+    }
+    // Need to return candidates so they can be added to a course
+    const candidates = await utils.prisma.candidate.findMany({
+      where: {
+        createdById: token?.sub,
+      },
+    });
+    const response: CourseResponse = { success: true, data: { courses, candidates } };
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
