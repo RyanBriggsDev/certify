@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import Frame from '@/components/ContentAlignment/Frame/Frame'
 import Form from '@/components/form/Form'
-import H1 from '@/components/headings/H1'
+import { H1 } from '@/components/Headings'
 import Loading from '@/components/Loading'
 import { useRouter } from 'next/router'
 import { AlertContext } from '@/lib/AlertContext'
