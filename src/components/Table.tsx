@@ -21,7 +21,7 @@ export default function Table({
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div className={`overflow-x-auto ${width}`}>
       {data.length > 0 && (
         <>
           <table

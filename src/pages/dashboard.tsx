@@ -1,7 +1,7 @@
 import Card from '@/components/Card'
 import Frame from '@/components/ContentAlignment/Frame/Frame'
 import ProfileLayout from '@/components/ContentAlignment/Frame/ProfileLayout'
-import H6 from '@/components/headings/H6'
+import { H6 } from '@/components/Headings'
 import Icon from '@/components/Icon'
 import Protected from '@/components/Protected'
 import { useSession } from 'next-auth/react'

@@ -1,6 +1,6 @@
 import Frame from '@/components/ContentAlignment/Frame/Frame'
 import Table from '@/components/Table'
-import H1 from '@/components/headings/H1'
+import { H1 } from '@/components/Headings'
 import { getCandidates } from '../api/candidate'
 
 export default function candidates(props: CandidatesProps) {
