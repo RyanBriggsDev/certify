@@ -16,7 +16,11 @@ export default function candidates(props: CandidatesProps) {
   return (
     <Frame>
       <H1>Candidates</H1>
-      <Table data={data} clickable onClick={(obj) => console.log(obj.id)} />
+      <Table
+        data={data}
+        route="/candidates/"
+        onClick={(obj) => console.log(obj.id)}
+      />
     </Frame>
   )
 }

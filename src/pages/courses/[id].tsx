@@ -6,6 +6,7 @@ import Card from '@/components/Card'
 import Loading from '@/components/Loading'
 import Table from '@/components/Table'
 import Modal from '@/components/Modal'
+import Button from '@/components/Button'
 import { formatDate } from '@/lib/dates'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
@@ -36,7 +37,6 @@ export default function SingleCourse() {
         setLoading(false)
         alert(error)
       }
-      // console.log(data)
     }
     if (router.isReady) {
       fetchData()
@@ -60,7 +60,10 @@ export default function SingleCourse() {
       </Head>
       <Frame>
         <div>
-          <Card className="flex min-h-fit flex-col items-center justify-center gap-3 text-center">
+          <Card
+            padding="p-6"
+            className="flex min-h-fit flex-col items-center justify-center gap-3 text-center"
+          >
             <H1 textSize="text-3xl md:text-5xl lg:text-7xl">
               {data?.courses[0].name}
             </H1>
@@ -72,7 +75,7 @@ export default function SingleCourse() {
             )}
           </Card>
         </div>
-        <div className="grid w-full grid-cols-1 flex-wrap gap-3 text-center lg:grid-cols-2">
+        <div className="grid w-full grid-cols-1 flex-wrap gap-3 text-center xl:grid-cols-5">
           <CourseDetails data={data} />
           <CandidateDetails data={data} />
         </div>
@@ -101,7 +104,7 @@ function CourseDetails({ data }) {
   return (
     <Card
       id="course-info"
-      className="flex flex-col items-center justify-center"
+      className="col-span-1 flex flex-col items-center justify-center xl:col-span-2"
     >
       <div className="relative h-full w-full rounded-md border border-gray-100 p-4 shadow-xl sm:p-6 lg:p-8">
         <div className="flex min-h-full flex-col items-center justify-center gap-3">
@@ -147,6 +150,13 @@ function CandidateDetails({ data }) {
   }
 
   const [tableData, setTableData] = useState(null)
+  const [deleteCandidateModal, setDeleteCandidateModal] =
+    useState<boolean>(false)
+  const [createCandidateModal, setCreateCandidateModal] =
+    useState<boolean>(false)
+  const [existingCandidateModal, setExistingCandidateModal] =
+    useState<boolean>(false)
+  const [candidateId, setCandidateId] = useState<string | number>('')
 
   useEffect(() => {
     if (data) {
@@ -156,7 +166,7 @@ function CandidateDetails({ data }) {
           name: candidate.candidate.name,
           company: candidate.candidate.company,
           id: candidate.candidate.id,
-          remote: 'remove',
+          delete: 'remove',
         },
       ])
       const formattedData = tableItems.flat(5)
@@ -168,24 +178,66 @@ function CandidateDetails({ data }) {
   return (
     <Card
       id="candidate-info"
-      className="flex flex-col items-center justify-center"
+      className="col-span-1 flex flex-col items-center justify-center xl:col-span-3"
     >
       <div className="relative h-full w-full rounded-md border border-gray-100 p-4 shadow-xl sm:p-6 lg:p-8">
         <div className="flex min-h-full flex-col items-center justify-center gap-3">
-          <H3
-            color="text-black dark:text-white"
-            textSize="text-3xl md:text-4xl lg:text-5xl"
-          >
-            Course Candidates
-          </H3>
-          {tableData && (
-            <Table
-              pageSize={10}
-              data={tableData}
-              route={'/candidates/'}
-              onClick={() => setModalOpen(true)}
-            />
-          )}
+          <>
+            <H3
+              color="text-black dark:text-white"
+              textSize="text-3xl md:text-4xl lg:text-5xl"
+            >
+              Course Candidates
+            </H3>
+            {console.log(data.courses[0].results)}
+            {data.courses[0].results.length > 0 && tableData ? (
+              <Table
+                pageSize={10}
+                data={tableData}
+                route={'/candidates/'}
+                onClick={(obj) => {
+                  setDeleteCandidateModal(!deleteCandidateModal)
+                  setCandidateId(obj.id)
+                }}
+              />
+            ) : (
+              <p>Looks like there aren't any existing candidates. </p>
+            )}
+
+            {/* candidate delete modal */}
+            <Modal
+              modalOpen={deleteCandidateModal}
+              close={() => setDeleteCandidateModal(false)}
+            >
+              <div className="grid gap-3">
+                <H3>Remove Candidate</H3>
+                <p>
+                  Are you sure you want to remove this candidate from the
+                  course?
+                </p>
+                <div className="grid w-full grid-cols-2 gap-3">
+                  <Button
+                    onClick={() => {
+                      console.log(candidateId)
+                    }}
+                    type="orange"
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setDeleteCandidateModal(false)
+                      setCandidateId('')
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </Modal>
+          </>
+          {/* create new candidate modal */}
+          {/* add existing candidate modal */}
         </div>
       </div>
     </Card>
