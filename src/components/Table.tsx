@@ -4,7 +4,7 @@ import Icon from './Icon'
 
 export default function Table({
   data,
-  clickable,
+  route,
   onClick,
   pageNumber = 0,
   pageSize = 10,
@@ -12,12 +12,11 @@ export default function Table({
 }: TableProps) {
   const tableHeads = Object.keys(data[0])
   const router = useRouter()
-  const { pathname } = router
 
   const [page, setPage] = useState(pageNumber)
 
   const handleClick = (obj) => {
-    router.push(`/${pathname}/${obj.id}`)
+    router.push(`/${route}/${obj.id}`)
   }
 
   return (
@@ -42,7 +41,7 @@ export default function Table({
               ).map((obj: any, index: number) => (
                 <tr
                   key={index}
-                  // data object requires an id key when using table clickable prop
+                  // data object requires an id key when using table route prop
                 >
                   {Object.values(obj).map((value: any, index: number) =>
                     value === 'remove' ? (
@@ -60,7 +59,7 @@ export default function Table({
                     ) : (
                       <td
                         className={`bg-dark-gray py-1 px-3 ${
-                          clickable ? 'cursor-pointer' : ''
+                          route ? 'cursor-pointer' : ''
                         }`}
                         onClick={() => handleClick(obj)}
                         key={index}
@@ -100,7 +99,7 @@ export default function Table({
 
 type TableProps = {
   data: any
-  clickable?: boolean
+  route?: string
   onClick?: any
   pageNumber?: number
   pageSize?: number

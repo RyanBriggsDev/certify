@@ -5,6 +5,7 @@ import Icon from '@/components/Icon'
 import Card from '@/components/Card'
 import Loading from '@/components/Loading'
 import Table from '@/components/Table'
+import Modal from '@/components/Modal'
 import { formatDate } from '@/lib/dates'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
@@ -35,6 +36,7 @@ export default function SingleCourse() {
         setLoading(false)
         alert(error)
       }
+      // console.log(data)
     }
     if (router.isReady) {
       fetchData()
@@ -144,6 +146,25 @@ function CandidateDetails({ data }) {
       break
   }
 
+  const [tableData, setTableData] = useState(null)
+
+  useEffect(() => {
+    if (data) {
+      const candidates = data.courses[0].results
+      const tableItems = candidates.map((candidate) => [
+        {
+          name: candidate.candidate.name,
+          company: candidate.candidate.company,
+          id: candidate.candidate.id,
+          remote: 'remove',
+        },
+      ])
+      const formattedData = tableItems.flat(5)
+
+      setTableData(formattedData)
+    }
+  }, [data])
+
   return (
     <Card
       id="candidate-info"
@@ -151,25 +172,22 @@ function CandidateDetails({ data }) {
     >
       <div className="relative h-full w-full rounded-md border border-gray-100 p-4 shadow-xl sm:p-6 lg:p-8">
         <div className="flex min-h-full flex-col items-center justify-center gap-3">
-          <H3>Course Candidates</H3>
-          <Table pageSize={10} data={tableData} />
+          <H3
+            color="text-black dark:text-white"
+            textSize="text-3xl md:text-4xl lg:text-5xl"
+          >
+            Course Candidates
+          </H3>
+          {tableData && (
+            <Table
+              pageSize={10}
+              data={tableData}
+              route={'/candidates/'}
+              onClick={() => setModalOpen(true)}
+            />
+          )}
         </div>
       </div>
     </Card>
   )
 }
-
-const tableData = [
-  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
-  { id: 111, name: 'Brian Lane', Company: 'Tes o Plc' },
-  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
-  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
-  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
-  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
-  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
-  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
-  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
-  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
-  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
-  { id: 111, name: 'Brian Lane', Company: 'Tesco Plc' },
-]
