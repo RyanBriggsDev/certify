@@ -41,7 +41,7 @@ function CreateCandidateForm() {
     setLoading(true)
     try {
       const checked = await createCandidateOnClient.parse(form)
-      const res = await fetch('/api/candidate', {
+      const res = await fetch('/api/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -156,10 +156,13 @@ function CandidateDetails({ data }) {
     useState<boolean>(false)
   const [existingCandidateModal, setExistingCandidateModal] =
     useState<boolean>(false)
-  const [candidateId, setCandidateId] = useState<string | number>('')
+  const [candidateId, setCandidateId] = useState('')
+  const [courseId, setCourseId] = useState('')
+  const [resultId, setResultId] = useState('')
 
   useEffect(() => {
     if (data) {
+      setCourseId(data.courses[0].id)
       const candidates = data.courses[0].results
       const tableItems = candidates.map((candidate) => [
         {
@@ -167,6 +170,7 @@ function CandidateDetails({ data }) {
           company: candidate.candidate.company,
           id: candidate.candidate.id,
           delete: 'remove',
+          result: candidate.id,
         },
       ])
       const formattedData = tableItems.flat(5)
@@ -174,6 +178,26 @@ function CandidateDetails({ data }) {
       setTableData(formattedData)
     }
   }, [data])
+
+  const handleDelete = async () => {
+    const body = {
+      courseId: courseId,
+      candidateId: candidateId,
+    }
+    try {
+      const res = await fetch(`/api/enroll/${resultId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+      const json = res.json()
+      setDeleteCandidateModal(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <Card
@@ -189,7 +213,6 @@ function CandidateDetails({ data }) {
             >
               Course Candidates
             </H3>
-            {console.log(data.courses[0].results)}
             {data.courses[0].results.length > 0 && tableData ? (
               <Table
                 pageSize={10}
@@ -198,6 +221,7 @@ function CandidateDetails({ data }) {
                 onClick={(obj) => {
                   setDeleteCandidateModal(!deleteCandidateModal)
                   setCandidateId(obj.id)
+                  setResultId(obj.result)
                 }}
               />
             ) : (
@@ -216,18 +240,14 @@ function CandidateDetails({ data }) {
                   course?
                 </p>
                 <div className="grid w-full grid-cols-2 gap-3">
-                  <Button
-                    onClick={() => {
-                      console.log(candidateId)
-                    }}
-                    type="orange"
-                  >
+                  <Button onClick={() => handleDelete()} type="orange">
                     Yes
                   </Button>
                   <Button
                     onClick={() => {
                       setDeleteCandidateModal(false)
                       setCandidateId('')
+                      setResultId('')
                     }}
                   >
                     Cancel
