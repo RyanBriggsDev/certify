@@ -2,7 +2,7 @@ export default function Modal({ modalOpen, close, children }: any) {
   return (
     <>
       {modalOpen ? (
-        <div className="modal fixed top-0 left-0 z-10 flex h-full w-full items-center justify-center">
+        <div className="modal fixed top-0 left-0 z-[1000] flex h-full w-full items-center justify-center">
           <div
             className="modal-background absolute h-full w-full cursor-pointer bg-black/[0.5]"
             onClick={close}
@@ -21,5 +21,5 @@ export default function Modal({ modalOpen, close, children }: any) {
         <></>
       )}
     </>
-  );
+  )
 }

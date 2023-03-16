@@ -7,13 +7,18 @@ import Loading from '@/components/Loading'
 import Table from '@/components/Table'
 import Modal from '@/components/Modal'
 import Button from '@/components/Button'
+import Form from '@/components/form/Form'
 import { formatDate } from '@/lib/dates'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
+import { AlertContext } from '@/lib/AlertContext'
+import { ZodError } from 'zod'
 
 export default function SingleCourse() {
   const [data, setData] = useState<any>()
+  const [newCandidate, setNewCandidate] = useState('')
   const [loading, setLoading] = useState(true)
+  const [deleteSuccess, setDeleteSuccess] = useState('')
   const router = useRouter()
   const { id } = router.query
 
@@ -31,7 +36,7 @@ export default function SingleCourse() {
           setData(await json.data)
           setLoading(false)
         } else {
-          console.log('error')
+          console.log('Error')
         }
       } catch (error) {
         setLoading(false)
@@ -41,7 +46,7 @@ export default function SingleCourse() {
     if (router.isReady) {
       fetchData()
     }
-  }, [id])
+  }, [id, newCandidate, deleteSuccess])
 
   if (loading)
     return (
@@ -77,7 +82,11 @@ export default function SingleCourse() {
         </div>
         <div className="grid w-full grid-cols-1 flex-wrap gap-3 text-center xl:grid-cols-5">
           <CourseDetails data={data} />
-          <CandidateDetails data={data} />
+          <CandidateDetails
+            setDeleteSuccess={setDeleteSuccess}
+            setNewCandidate={setNewCandidate}
+            data={data}
+          />
         </div>
       </Frame>
     </>
@@ -118,13 +127,17 @@ function CourseDetails({ data }) {
           <div className="flex w-full justify-between gap-3">
             <Icon icon={iconType} size="5xl" color="warning" />
             <div className="flex items-center justify-between">
-              <span className="rounded-full bg-sapph-blue px-3 py-1.5 text-xs font-medium text-white">
-                {data.courses[0].type}
-              </span>
+              {data.courses[0].type && (
+                <span className="rounded-full bg-sapph-blue px-3 py-1.5 text-xs font-medium text-white">
+                  {data.courses[0].type}
+                </span>
+              )}
             </div>
           </div>
           <div className="">
-            <p className="text-left">{data.courses[0].description}</p>
+            {data.courses[0].description && (
+              <p className="text-left">{data.courses[0].description}</p>
+            )}
           </div>
         </div>
       </div>
@@ -132,7 +145,7 @@ function CourseDetails({ data }) {
   )
 }
 
-function CandidateDetails({ data }) {
+function CandidateDetails({ data, setNewCandidate, setDeleteSuccess }) {
   let iconType
   switch (data.courses[0].location) {
     case 'classroom':
@@ -192,8 +205,11 @@ function CandidateDetails({ data }) {
         },
         body: JSON.stringify(body),
       })
-      const json = res.json()
-      setDeleteCandidateModal(false)
+      const json = await res.json()
+      if (json.success) {
+        setDeleteCandidateModal(false)
+        setDeleteSuccess(res.url)
+      }
     } catch (error) {
       console.log(error)
     }
@@ -203,6 +219,8 @@ function CandidateDetails({ data }) {
     <Card
       id="candidate-info"
       className="col-span-1 flex flex-col items-center justify-center xl:col-span-3"
+      courseId={courseId}
+      setNewCandidate={setNewCandidate}
     >
       <div className="relative h-full w-full rounded-md border border-gray-100 p-4 shadow-xl sm:p-6 lg:p-8">
         <div className="flex min-h-full flex-col items-center justify-center gap-3">
@@ -227,6 +245,17 @@ function CandidateDetails({ data }) {
             ) : (
               <p>Looks like there aren't any existing candidates. </p>
             )}
+            <div className="grid w-full grid-cols-2 gap-3">
+              <Button onClick={() => setExistingCandidateModal(true)}>
+                Add Existing Candidate
+              </Button>
+              <Button
+                onClick={() => setCreateCandidateModal(true)}
+                type="orange"
+              >
+                Create New Candidate
+              </Button>
+            </div>
 
             {/* candidate delete modal */}
             <Modal
@@ -257,9 +286,150 @@ function CandidateDetails({ data }) {
             </Modal>
           </>
           {/* create new candidate modal */}
+          <Modal
+            close={() => setCreateCandidateModal(false)}
+            modalOpen={createCandidateModal}
+            setModalOpen={setCreateCandidateModal}
+            courseId={courseId}
+            setNewCandidate={setNewCandidate}
+          >
+            <CreateNewCandidate
+              courseId={courseId}
+              setNewCandidate={setNewCandidate}
+              setCreateCandidateModal={setCreateCandidateModal}
+            />
+          </Modal>
           {/* add existing candidate modal */}
+          <Modal
+            close={() => setExistingCandidateModal(false)}
+            modalOpen={existingCandidateModal}
+          >
+            <AddExistingCandidate />
+          </Modal>
         </div>
       </div>
     </Card>
+  )
+}
+
+const CreateNewCandidate = ({
+  courseId,
+  setNewCandidate,
+  setCreateCandidateModal,
+}: any) => {
+  const createCandidateForm = [
+    {
+      title: 'Create New Candidate',
+      inputs: [
+        {
+          label: 'Full Name*',
+          type: 'text',
+          name: 'name',
+          placeholder: 'Anaya Grace',
+        },
+        {
+          label: 'Company*',
+          type: 'text',
+          name: 'company',
+          placeholder: 'Rubber Ducks Ltd',
+        },
+        {
+          label: 'Email',
+          type: 'email',
+          name: 'email',
+          placeholder: 'Anaya.Grace@rubberducks.com',
+        },
+        {
+          label: 'Address',
+          type: 'text',
+          name: 'address',
+          placeholder: '10 Church Road, Nottingham , NG27 9KH',
+        },
+        {
+          label: 'Telephone',
+          type: 'tel',
+          name: 'telephoneNumber',
+          placeholder: '0161 897 3028',
+        },
+      ],
+      button: {
+        text: 'Create',
+        type: 'primary',
+      },
+    },
+  ]
+
+  const { setAlert } = useContext(AlertContext) as any
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async (form: any) => {
+    if (!form.name || !form.company) {
+      return setAlert('Please fill out required form fields. ')
+    }
+    try {
+      setLoading(true)
+      const res = await fetch('/api/candidate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      })
+      const json = await res.json()
+      if (json.success) {
+        try {
+          const data = {
+            courseId: courseId,
+            candidateId: json.data.id,
+          }
+          const enrollRes = await fetch(`/api/enroll`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          })
+          const enrollJson = await enrollRes.json()
+          if (enrollJson.success) {
+            setNewCandidate(json.data.id)
+            setCreateCandidateModal(false)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+
+        setLoading(false)
+      } else {
+        setAlert('Error: Uh oh something went wrong. Please reload & try again')
+      }
+    } catch (error: any) {
+      setLoading(false)
+      if (error instanceof ZodError) {
+        setAlert(error.issues[0].message)
+      } else {
+        setAlert('Error: Uh oh something went wrong. Please reload & try again')
+      }
+    }
+  }
+
+  return (
+    <div className="grid gap-3">
+      <H3>Create New Candidate</H3>
+      <Form
+        formContent={createCandidateForm}
+        formBg="bg-sapph-blue dark:bg-stone-900"
+        formClassName="text-white text-left"
+        formWidth="w-full"
+        onSubmit={handleSubmit}
+      />
+    </div>
+  )
+}
+
+const AddExistingCandidate = () => {
+  return (
+    <div>
+      <H3>Add Existing Candidate</H3>
+    </div>
   )
 }
