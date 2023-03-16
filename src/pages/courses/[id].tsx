@@ -33,7 +33,7 @@ export default function SingleCourse() {
         })
         const json = await res.json()
         if (json.success) {
-          setData(await json.data)
+          setData(json.data)
           setLoading(false)
         } else {
           console.log('Error')
@@ -162,7 +162,7 @@ function CandidateDetails({ data, setNewCandidate, setDeleteSuccess }) {
       break
   }
 
-  const [tableData, setTableData] = useState(null)
+  const [tableData, setTableData] = useState([])
   const [deleteCandidateModal, setDeleteCandidateModal] =
     useState<boolean>(false)
   const [createCandidateModal, setCreateCandidateModal] =
@@ -172,9 +172,11 @@ function CandidateDetails({ data, setNewCandidate, setDeleteSuccess }) {
   const [candidateId, setCandidateId] = useState('')
   const [courseId, setCourseId] = useState('')
   const [resultId, setResultId] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (data) {
+      setLoading(true)
       setCourseId(data.courses[0].id)
       const candidates = data.courses[0].results
       const tableItems = candidates.map((candidate) => [
@@ -187,8 +189,8 @@ function CandidateDetails({ data, setNewCandidate, setDeleteSuccess }) {
         },
       ])
       const formattedData = tableItems.flat(5)
-
       setTableData(formattedData)
+      setLoading(false)
     }
   }, [data])
 
@@ -198,6 +200,7 @@ function CandidateDetails({ data, setNewCandidate, setDeleteSuccess }) {
       candidateId: candidateId,
     }
     try {
+      setLoading(true)
       const res = await fetch(`/api/enroll/${resultId}`, {
         method: 'DELETE',
         headers: {
@@ -209,10 +212,15 @@ function CandidateDetails({ data, setNewCandidate, setDeleteSuccess }) {
       if (json.success) {
         setDeleteCandidateModal(false)
         setDeleteSuccess(res.url)
+        setLoading(false)
       }
     } catch (error) {
       console.log(error)
     }
+  }
+
+  {
+    loading && <Loading />
   }
 
   return (
@@ -231,7 +239,7 @@ function CandidateDetails({ data, setNewCandidate, setDeleteSuccess }) {
             >
               Course Candidates
             </H3>
-            {data.courses[0].results.length > 0 && tableData ? (
+            {tableData.length > 0 ? (
               <Table
                 pageSize={10}
                 data={tableData}
@@ -393,6 +401,7 @@ const CreateNewCandidate = ({
           if (enrollJson.success) {
             setNewCandidate(json.data.id)
             setCreateCandidateModal(false)
+            setLoading(false)
           }
         } catch (error) {
           console.log(error)
@@ -410,6 +419,10 @@ const CreateNewCandidate = ({
         setAlert('Error: Uh oh something went wrong. Please reload & try again')
       }
     }
+  }
+
+  {
+    loading && <Loading />
   }
 
   return (
