@@ -45,6 +45,8 @@ model Result {
   expiryDate      DateTime?    
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+
+  @@unique([courseId, candidateId]) //Add constraint to avoid duplicates. Eg same candidate cannot be added multiple times.
 }
 
 model Candidate {

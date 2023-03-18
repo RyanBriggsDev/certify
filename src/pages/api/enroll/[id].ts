@@ -21,8 +21,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             id: query.id?.toString(),
           },
         });
-        const response: EnrollResponse = { success: true, data: result };
-        res.status(200).json(response);
+        if (result.length === 0) {
+          const nilresponse: EnrollResponse = { success: false, data: result };
+          res.status(200).json(nilresponse);
+        } else {
+          const response: EnrollResponse = { success: true, data: result };
+          res.status(200).json(response);
+        }
       } catch (error) {
         await handleErrors(error, res);
       }
