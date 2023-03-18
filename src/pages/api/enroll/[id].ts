@@ -9,7 +9,8 @@ type EnrollResponse = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { body, query } = req;
+  const { query } = req;
+  await utils.checkAuth(req, res);
 
   switch (req.method) {
     case "GET":
