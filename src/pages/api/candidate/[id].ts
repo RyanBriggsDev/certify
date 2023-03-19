@@ -20,6 +20,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             id: query.id?.toString(),
             createdById: token?.sub,
           },
+          include: {
+            company: true,
+          },
         });
         const response: CandidateResponse = { success: true, data: candidate };
         res.status(200).json(response);
