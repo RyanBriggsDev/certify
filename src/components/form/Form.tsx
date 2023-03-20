@@ -17,6 +17,7 @@ export default function Form({
   formPadding,
   formRounded,
   formWidth,
+  formBg,
   onSubmit,
 }: any) {
   const { title, desc, inputs, button, redirect } = formContent[0]
@@ -38,7 +39,8 @@ export default function Form({
                 ${formPadding === false ? '' : 'p-7'}
                 ${formRounded === false ? '' : 'rounded'}
                 ${formWidth ? formWidth : 'w-fit'}
-                flex flex-col gap-5 bg-white shadow-lg dark:bg-dark-gray
+                ${formBg ? formBg : 'bg-white shadow-lg dark:bg-dark-gray'}
+                flex flex-col gap-5 
                 `}
     >
       {title || desc ? (
