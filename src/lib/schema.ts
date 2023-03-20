@@ -44,7 +44,6 @@ export const createCandidate = z.object({
   email: z.string().optional(),
   address: z.string().optional(),
   telephoneNumber: z.string().optional(),
-  company: z.string().optional(),
   createdById: z.string(),
 });
 export const createCandidateOnClient = z.object({
@@ -54,7 +53,6 @@ export const createCandidateOnClient = z.object({
   email: z.string().optional(),
   address: z.string().optional(),
   telephoneNumber: z.string().optional(),
-  company: z.string().optional(),
 });
 
 export const updateCandidate = z.object({
@@ -62,7 +60,6 @@ export const updateCandidate = z.object({
   email: z.string().optional(),
   address: z.string().optional(),
   telephoneNumber: z.string().optional(),
-  company: z.string().optional(),
 });
 
 export const createResult = z.object({
@@ -80,4 +77,20 @@ export const updateResult = z.object({
   candidateId: z.string().optional(),
   passdate: z.coerce.date().optional(),
   expiryDate: z.coerce.date().optional(),
+});
+
+export const createCompany = z.object({
+  name: z.string(),
+  address: z.string(),
+  telephoneNumber: z.string().optional(),
+  contactName: z.string().optional(),
+  contactEmail: z.string().email().optional(),
+});
+
+export const updateCompany = z.object({
+  name: z.string().optional(),
+  address: z.string().optional(),
+  telephoneNumber: z.string().optional(),
+  contactName: z.string().optional(),
+  contactEmail: z.string().email().optional(),
 });

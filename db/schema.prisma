@@ -45,6 +45,8 @@ model Result {
   expiryDate      DateTime?    
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+
+  @@unique([courseId, candidateId]) //Add constraint to avoid duplicates. Eg same candidate cannot be added multiple times.
 }
 
 model Candidate {
@@ -53,10 +55,23 @@ model Candidate {
   email           String?     @unique
   address         String? 
   telephoneNumber String?
-  company         String?
+  company         Company?    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId       String?     // relation scalar field  (used in the `@relation` attribute above)
   results         Result[]
   createdBy       Admin       @relation(fields: [createdById], references: [id], onDelete: Cascade)
   createdById     String      // relation scalar field  (used in the `@relation` attribute above)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model Company {
+  id              String      @id @default(cuid())   
+  name            String
+  address         String
+  telephoneNumber String?
+  contactName     String?
+  contactEmail    String?
+  candidates      Candidate[] 
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
 }
