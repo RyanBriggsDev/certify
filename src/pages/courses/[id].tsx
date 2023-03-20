@@ -19,6 +19,7 @@ export default function SingleCourse() {
   const [newCandidate, setNewCandidate] = useState('')
   const [loading, setLoading] = useState(true)
   const [deleteSuccess, setDeleteSuccess] = useState('')
+  const [existingEnrollSuccess, setExistingEnrollSuccess] = useState('')
   const router = useRouter()
   const { id } = router.query
 
@@ -46,7 +47,7 @@ export default function SingleCourse() {
     if (router.isReady) {
       fetchData()
     }
-  }, [id, newCandidate, deleteSuccess])
+  }, [id, newCandidate, deleteSuccess, existingEnrollSuccess])
 
   if (loading)
     return (
@@ -85,6 +86,7 @@ export default function SingleCourse() {
           <CandidateDetails
             setDeleteSuccess={setDeleteSuccess}
             setNewCandidate={setNewCandidate}
+            setExistingEnrollSuccess={setExistingEnrollSuccess}
             data={data}
           />
         </div>
@@ -145,7 +147,12 @@ function CourseDetails({ data }) {
   )
 }
 
-function CandidateDetails({ data, setNewCandidate, setDeleteSuccess }) {
+function CandidateDetails({
+  data,
+  setNewCandidate,
+  setDeleteSuccess,
+  setExistingEnrollSuccess,
+}) {
   let iconType
   switch (data.courses[0].location) {
     case 'classroom':
@@ -229,6 +236,7 @@ function CandidateDetails({ data, setNewCandidate, setDeleteSuccess }) {
       className="col-span-1 flex flex-col items-center justify-center xl:col-span-3"
       courseId={courseId}
       setNewCandidate={setNewCandidate}
+      data={data}
     >
       <div className="relative h-full w-full rounded-md border border-gray-100 p-4 shadow-xl sm:p-6 lg:p-8">
         <div className="flex min-h-full flex-col items-center justify-center gap-3">
@@ -293,6 +301,7 @@ function CandidateDetails({ data, setNewCandidate, setDeleteSuccess }) {
               </div>
             </Modal>
           </>
+
           {/* create new candidate modal */}
           <Modal
             close={() => setCreateCandidateModal(false)}
@@ -307,12 +316,20 @@ function CandidateDetails({ data, setNewCandidate, setDeleteSuccess }) {
               setCreateCandidateModal={setCreateCandidateModal}
             />
           </Modal>
+
           {/* add existing candidate modal */}
           <Modal
             close={() => setExistingCandidateModal(false)}
             modalOpen={existingCandidateModal}
+            data={data}
+            courseId={courseId}
           >
-            <AddExistingCandidate />
+            <AddExistingCandidate
+              data={data}
+              courseId={courseId}
+              setExistingEnrollSuccess={setExistingEnrollSuccess}
+              setExistingCandidateModal={setExistingCandidateModal}
+            />
           </Modal>
         </div>
       </div>
@@ -439,10 +456,67 @@ const CreateNewCandidate = ({
   )
 }
 
-const AddExistingCandidate = () => {
+const AddExistingCandidate = ({
+  data,
+  courseId,
+  setExistingEnrollSuccess,
+  setExistingCandidateModal,
+}) => {
+  const handleCandidateAdd = async (candidate) => {
+    const data = {
+      candidateId: candidate.id,
+      courseId: courseId,
+    }
+    try {
+      const res = await fetch('/api/enroll', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      const json = await res.json()
+      if (json.success) {
+        setExistingEnrollSuccess(candidate.id)
+        setExistingCandidateModal(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  if (data.length === 0)
+    return (
+      <div>
+        <p>
+          You don't have any candidates associated with your account. Make a new
+          one.
+        </p>
+      </div>
+    )
+
   return (
-    <div>
+    <div className="grid gap-3">
       <H3>Add Existing Candidate</H3>
+      <Card className="flex flex-col gap-3 bg-sapph-blue text-left dark:bg-stone-900">
+        <div className="grid grid-cols-3 gap-3 text-center text-xl">
+          <p>Candidate</p>
+          <p>Company</p>
+          <p>Add to Course</p>
+        </div>
+        {data.candidates.map((candidate, index: string) => (
+          <div className="grid grid-cols-3 gap-3" key={index}>
+            <p>{candidate.name}</p>
+            <p>{candidate.company}</p>
+            <div
+              className="flex w-full cursor-pointer items-center justify-center duration-300 ease-in-out hover:scale-125"
+              onClick={() => handleCandidateAdd(candidate)}
+            >
+              <Icon icon="BiUserPlus" color="primary" size="3xl" />
+            </div>
+          </div>
+        ))}
+      </Card>
     </div>
   )
 }
