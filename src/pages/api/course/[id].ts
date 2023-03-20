@@ -44,7 +44,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             createdById: token?.sub,
           },
         });
-        const response: CourseResponse = { success: true, data: { courses, candidates } };
+        // Need a list of companies so they can be added to a user
+        const companies = await utils.prisma.company.findMany();
+        const response: CourseResponse = { success: true, data: { courses, candidates, companies } };
         res.status(200).json(response);
       } catch (error) {
         await handleErrors(error, res);
@@ -112,7 +114,9 @@ export const getSingleCourse = async (ctx) => {
         createdById: token?.sub,
       },
     });
-    const response: CourseResponse = { success: true, data: { courses, candidates } };
+    // Need a list of companies so they can be added to a user
+    const companies = await utils.prisma.company.findMany();
+    const response: CourseResponse = { success: true, data: { courses, candidates, companies } };
     return response;
   } catch (error) {
     return error;
