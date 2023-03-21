@@ -9,6 +9,7 @@ export default function Input({
   required,
   width,
   labelText,
+  defaultValue,
 }: any) {
   return (
     <>
@@ -20,13 +21,14 @@ export default function Input({
         name={name}
         id={id}
         value={value}
+        defaultValue={defaultValue}
         required={required}
         className={`${
-          width ? width : 'w-full'
+          width ? width : "w-full"
         } rounded border border-zinc-700 bg-transparent p-1.5 px-3 text-black duration-300 ease-in-out focus:border-french-blue dark:text-white ${
-          className ? className : ''
+          className ? className : ""
         }`}
       />
     </>
-  )
+  );
 }

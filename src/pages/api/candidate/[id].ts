@@ -18,10 +18,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const candidate = await utils.prisma.candidate.findMany({
           where: {
             id: query.id?.toString(),
-            createdById: token?.sub,
           },
           include: {
             company: true,
+            results: true,
           },
         });
         const response: CandidateResponse = { success: true, data: candidate };
@@ -38,7 +38,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const updatedCandidate = await utils.prisma.candidate.updateMany({
           where: {
             id: query.id?.toString(),
-            createdById: token?.sub,
           },
           data: inputData,
         });
@@ -54,7 +53,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const deletedCandidate = await utils.prisma.candidate.deleteMany({
           where: {
             id: query.id?.toString(),
-            createdById: token?.sub,
           },
         });
         const response: CandidateResponse = { success: true, data: deletedCandidate };
@@ -65,3 +63,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
   }
 }
+
+export const getCandidate = async (ctx) => {
+  const token = await utils.checkAuth(ctx.req, ctx.res);
+  try {
+    const candidate = await utils.prisma.candidate.findMany({
+      where: {
+        id: ctx.query.id?.toString(),
+      },
+      include: {
+        company: true,
+        results: {
+          include: {
+            course: true,
+          },
+        },
+      },
+    });
+    return candidate;
+  } catch (error) {
+    return error;
+  }
+};

@@ -1,15 +1,15 @@
-import Input from './Input'
-import Button from '../Button'
-import InlineLink from '../InlineLink'
-import { useState } from 'react'
+import Input from "./Input";
+import Button from "../Button";
+import InlineLink from "../InlineLink";
+import { useState } from "react";
 
 const setInitialValues = (formFields: any) => {
-  let initialfields = {}
+  let initialfields = {};
   formFields.forEach((element: any) => {
-    initialfields[element.name] = element.initialvalue
-  })
-  return initialfields
-}
+    initialfields[element.name] = element.initialvalue;
+  });
+  return initialfields;
+};
 
 export default function Form({
   formContent,
@@ -20,26 +20,26 @@ export default function Form({
   formBg,
   onSubmit,
 }: any) {
-  const { title, desc, inputs, button, redirect } = formContent[0]
-  const [data, setData] = useState(setInitialValues(inputs))
+  const { title, desc, inputs, button, redirect } = formContent[0];
+  const [data, setData] = useState(setInitialValues(inputs));
 
   const onChangeHandler = (e: any) =>
     setData((p) => ({
       ...p,
       [e.target.name]: e.target.value,
-    }))
+    }));
 
-  const onSubmitHandler = () => onSubmit(data)
+  const onSubmitHandler = () => onSubmit(data);
 
   return (
     <form
-      autoComplete={'off'}
+      autoComplete={"off"}
       className={`
-                ${formClassName ? formClassName : ''} 
-                ${formPadding === false ? '' : 'p-7'}
-                ${formRounded === false ? '' : 'rounded'}
-                ${formWidth ? formWidth : 'w-fit'}
-                ${formBg ? formBg : 'bg-white shadow-lg dark:bg-dark-gray'}
+                ${formClassName ? formClassName : ""} 
+                ${formPadding === false ? "" : "p-7"}
+                ${formRounded === false ? "" : "rounded"}
+                ${formWidth ? formWidth : "w-fit"}
+                ${formBg ? formBg : "bg-white shadow-lg dark:bg-dark-gray"}
                 flex flex-col gap-5 
                 `}
     >
@@ -79,18 +79,14 @@ export default function Form({
       <Button
         type={button.type}
         onClick={(e: any) => {
-          e.preventDefault()
-          onSubmitHandler()
+          e.preventDefault();
+          onSubmitHandler();
         }}
       >
         {button.text}
       </Button>
 
-      {redirect ? (
-        <InlineLink text={redirect.text} href={redirect.link} />
-      ) : (
-        <></>
-      )}
+      {redirect ? <InlineLink text={redirect.text} href={redirect.link} /> : <></>}
     </form>
-  )
+  );
 }
