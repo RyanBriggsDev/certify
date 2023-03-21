@@ -18,6 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const candidate = await utils.prisma.candidate.findMany({
           where: {
             id: query.id?.toString(),
+            createdById: token?.sub,
           },
           include: {
             company: true,
@@ -38,6 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const updatedCandidate = await utils.prisma.candidate.updateMany({
           where: {
             id: query.id?.toString(),
+            createdById: token?.sub,
           },
           data: inputData,
         });
@@ -53,6 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const deletedCandidate = await utils.prisma.candidate.deleteMany({
           where: {
             id: query.id?.toString(),
+            createdById: token?.sub,
           },
         });
         const response: CandidateResponse = { success: true, data: deletedCandidate };

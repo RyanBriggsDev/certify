@@ -6,7 +6,7 @@ import { useState } from "react";
 const setInitialValues = (formFields: any) => {
   let initialfields = {};
   formFields.forEach((element: any) => {
-    initialfields[element.name] = element.initialvalue;
+    initialfields[element.name] = element.initialValue;
   });
   return initialfields;
 };
