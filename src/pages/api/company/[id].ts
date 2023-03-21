@@ -33,7 +33,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           res.status(200).json(nocompanies);
           return;
         }
-        const response: CompanyResponse = { success: true, data: companies };
+        const companyCandidates = await utils.prisma.candidate.findMany({
+          where: {
+            companyId: query.id?.toString(),
+          },
+        });
+        const response: CompanyResponse = { success: true, data: { companies, companyCandidates } };
         res.status(200).json(response);
       } catch (error) {
         await handleErrors(error, res);
