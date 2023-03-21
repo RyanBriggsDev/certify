@@ -46,20 +46,21 @@ export const createCandidate = z.object({
   telephoneNumber: z.string().optional(),
   createdById: z.string(),
 });
-export const createCandidateOnClient = z.object({
+
+export const candidateOnClient = z.object({
   name: z.string({
     required_error: "Name field is required",
   }),
   email: z.string().optional(),
-  address: z.string().optional(),
-  telephoneNumber: z.string().optional(),
+  address: z.string().nullable().optional(),
+  telephoneNumber: z.string().nullable().optional(),
 });
 
 export const updateCandidate = z.object({
   name: z.string().optional(),
   email: z.string().optional(),
-  address: z.string().optional(),
-  telephoneNumber: z.string().optional(),
+  address: z.string().nullable().optional(),
+  telephoneNumber: z.string().nullable().optional(),
 });
 
 export const createResult = z.object({

@@ -5,12 +5,17 @@ import Button from "@/components/Button";
 import { useRouter } from "next/router";
 import { getCandidate } from "../api/candidate/[id]";
 import Icon from "@/components/Icon";
+import { useState, useContext } from "react";
+import Loading from "@/components/Loading";
+import { AlertContext } from "@/lib/AlertContext";
+import { candidateOnClient } from "@/lib/schema";
+import { ZodError } from "zod";
 
-export default function SingleCandidate(props) {
+export default function SingleCandidate(props: any) {
   const router = useRouter();
   const { id } = router.query;
   const candidate = props.candidate[0];
-  console.log(candidate);
+  const [loading, setLoading] = useState(false);
 
   const candidateForm = [
     {
@@ -48,31 +53,75 @@ export default function SingleCandidate(props) {
   ];
   return (
     <Frame>
-      <H1>Candidate</H1>
-      <div className="flex w-full flex-col justify-around gap-2">
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-          <div className="grid gap-3">
-            <Form
-              formContent={candidateForm}
-              formBg="bg-sapph-blue dark:bg-stone-900"
-              formClassName="text-white text-left"
-              formWidth="w-full"
-              onSubmit={(data) => console.log(data)}
-            />
+      {loading ? (
+        <Loading size="full" />
+      ) : (
+        <>
+          <H1>Candidate</H1>
+          <div className="flex w-full flex-col justify-around gap-2">
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+              <div className="grid gap-3">
+                <Candidate candidateForm={candidateForm} id={id} setLoading={setLoading} />
+              </div>
+              <div className="grid gap-3">
+                {candidate.company ? <Company company={candidate.company} /> : <NoCompany />}
+              </div>
+            </div>
+            <H5>Courses</H5>
+            <CoursesTable results={candidate.results} />
           </div>
-          <div className="grid gap-3">
-            {candidate.company ? <Company company={candidate.company} /> : <NoCompany />}
-          </div>
-        </div>
-        <H5>Courses</H5>
-        <CoursesTable results={candidate.results} />
-      </div>
+        </>
+      )}
     </Frame>
   );
 }
 
-function Company(props: any) {
+function Candidate(props: any) {
   const router = useRouter();
+  const { setAlert } = useContext(AlertContext) as any;
+
+  async function submitForm(form: any) {
+    console.log(form);
+
+    props.setLoading(true);
+    try {
+      const checked = await candidateOnClient.parse(form);
+      const res = await fetch(`/api/candidate/${props.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(checked),
+      });
+      const response = await res.json();
+      if (response.success) {
+        router.push("/candidates");
+      } else {
+        setAlert("Error: Uh oh something went wrong. Please reload & try again");
+      }
+    } catch (error: any) {
+      props.setLoading(false);
+      if (error instanceof ZodError) {
+        console.log(error);
+
+        setAlert(error.issues[0].message);
+      } else {
+        setAlert("Error: Uh oh something went wrong. Please reload & try again");
+      }
+    }
+  }
+  return (
+    <Form
+      formContent={props.candidateForm}
+      formBg="bg-sapph-blue dark:bg-stone-900"
+      formClassName="text-white text-left"
+      formWidth="w-full"
+      onSubmit={submitForm}
+    />
+  );
+}
+
+function Company(props: any) {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-5 rounded bg-sapph-blue p-7 dark:bg-stone-900">
       <H5>Company Details</H5>
@@ -154,7 +203,7 @@ function CourseRow(props: any) {
           href={`/courses/${props.data.course.id}`}
           className="flex justify-center rounded-lg bg-azure-blue p-2"
         >
-          <Icon icon="BiLinkExternal" size="xl" color="black" />
+          <Icon icon="BiDesktop" size="xl" color="black" />
         </a>
       </td>
       <td className="px-2">

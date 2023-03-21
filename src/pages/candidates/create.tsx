@@ -3,7 +3,7 @@ import Frame from "@/components/ContentAlignment/Frame/Frame";
 import Form from "@/components/form/Form";
 import { H1, H5 } from "@/components/Headings";
 import Loading from "@/components/Loading";
-import { createCandidateOnClient } from "@/lib/schema";
+import { candidateOnClient } from "@/lib/schema";
 import { ZodError } from "zod";
 import { AlertContext } from "@/lib/AlertContext";
 import { useRouter } from "next/router";
@@ -14,18 +14,6 @@ export default function CreateCandidate() {
       <H1>Create Candidate</H1>
       <div className="flex w-full justify-around gap-2">
         <CreateCandidateForm />
-        {/* <div className="m-2 flex w-1/2 flex-col bg-dark-gray p-5">
-          <H5>Info</H5>
-          <p className="py-5">
-            Candidates that are created here can subsequently be added to any
-            courses.
-          </p>
-          <p className="py-5">
-            Although you can create candidates without contact details, it is
-            not recommended. Without contact details you will not be able to
-            issue a certificate or contact.
-          </p>
-        </div> */}
       </div>
     </Frame>
   );
@@ -40,7 +28,7 @@ function CreateCandidateForm() {
   async function handleSubmit(form: unknown) {
     setLoading(true);
     try {
-      const checked = await createCandidateOnClient.parse(form);
+      const checked = await candidateOnClient.parse(form);
       const res = await fetch("/api/candidate", {
         method: "POST",
         headers: {
@@ -105,11 +93,6 @@ const formContent = [
         label: "Telephone Number",
         type: "text",
         name: "telephoneNumber",
-      },
-      {
-        label: "Company",
-        type: "text",
-        name: "company",
       },
     ],
     button: {
