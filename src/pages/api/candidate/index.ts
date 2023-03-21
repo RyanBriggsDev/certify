@@ -15,9 +15,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case "GET":
       try {
         const courses = await utils.prisma.candidate.findMany({
-          where: {
-            createdById: token?.sub,
-          },
           include: {
             company: true,
           },
@@ -34,7 +31,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const inputData = await createCandidate.parse({
           ...body,
-          createdById: token?.sub,
         });
         const candidate = await utils.prisma.candidate.create({
           data: inputData,
@@ -52,9 +48,6 @@ export const getCandidates = async (ctx) => {
   const token = await utils.checkAuth(ctx.req, ctx.res);
   try {
     const candidates = await utils.prisma.candidate.findMany({
-      where: {
-        createdById: token?.sub,
-      },
       include: {
         company: true,
       },
