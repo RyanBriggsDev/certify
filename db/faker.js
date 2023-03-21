@@ -64,7 +64,6 @@ const createFakeCandidates = async (numberOfRecords) => {
             ${faker.address.zipCode()}
         `,
         telephoneNumber: faker.phone.number(),
-        company: faker.company.name(),
         createdById: faker.helpers.arrayElement(await getAdminIds()),
       };
       fakeCandidates.push(candidate);
