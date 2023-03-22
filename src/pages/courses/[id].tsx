@@ -184,7 +184,6 @@ function CandidateDetails({
 
   useEffect(() => {
     if (data) {
-      console.log(data)
       setLoading(true)
       setCourseId(data.courses[0].id)
       const candidates = data.courses[0].results
