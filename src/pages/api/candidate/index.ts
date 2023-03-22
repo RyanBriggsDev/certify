@@ -1,18 +1,21 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import * as utils from "@/lib/utils";
-import { createCandidate } from "@/lib/schema";
-import { handleErrors } from "@/lib/errors";
+import type { NextApiRequest, NextApiResponse } from 'next'
+import * as utils from '@/lib/utils'
+import { createCandidate } from '@/lib/schema'
+import { handleErrors } from '@/lib/errors'
 
 type CandidateResponse = {
-  success: Boolean;
-  data: Object[] | Object;
-};
+  success: Boolean
+  data: Object[] | Object
+}
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const token = await utils.checkAuth(req, res);
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const token = await utils.checkAuth(req, res)
 
   switch (req.method) {
-    case "GET":
+    case 'GET':
       try {
         const courses = await utils.prisma.candidate.findMany({
           where: {
@@ -21,35 +24,37 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           include: {
             company: true,
           },
-        });
-        const response: CandidateResponse = { success: true, data: courses };
-        res.status(200).json(response);
+        })
+        const response: CandidateResponse = { success: true, data: courses }
+        res.status(200).json(response)
       } catch (error) {
-        await handleErrors(error, res);
+        await handleErrors(error, res)
       }
-      break;
+      break
 
-    case "POST":
-      const { body } = req;
+    case 'POST':
+      const { body } = req
+      console.log(body)
       try {
         const inputData = await createCandidate.parse({
           ...body,
           createdById: token?.sub,
-        });
+        })
         const candidate = await utils.prisma.candidate.create({
           data: inputData,
-        });
-        const response: CandidateResponse = { success: true, data: candidate };
-        res.status(200).json(response);
+        })
+        const response: CandidateResponse = { success: true, data: candidate }
+        res.status(200).json(response)
       } catch (error) {
-        await handleErrors(error, res);
+        console.log(error)
+        await handleErrors(error, res)
       }
-      break;
+      break
   }
 }
 
 export const getCandidates = async (ctx) => {
-  const token = await utils.checkAuth(ctx.req, ctx.res);
+  const token = await utils.checkAuth(ctx.req, ctx.res)
   try {
     const candidates = await utils.prisma.candidate.findMany({
       where: {
@@ -58,9 +63,9 @@ export const getCandidates = async (ctx) => {
       include: {
         company: true,
       },
-    });
-    return candidates;
+    })
+    return candidates
   } catch (error) {
-    return error;
+    return error
   }
-};
+}

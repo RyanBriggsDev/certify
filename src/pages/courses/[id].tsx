@@ -13,6 +13,7 @@ import { useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
 import { AlertContext } from '@/lib/AlertContext'
 import { ZodError } from 'zod'
+import { candidateOnClient } from '@/lib/schema'
 
 export default function SingleCourse() {
   const [data, setData] = useState<any>()
@@ -183,6 +184,7 @@ function CandidateDetails({
 
   useEffect(() => {
     if (data) {
+      console.log(data)
       setLoading(true)
       setCourseId(data.courses[0].id)
       const candidates = data.courses[0].results
@@ -345,7 +347,7 @@ const CreateNewCandidate = ({
   setCreateCandidateModal,
   data,
 }: any) => {
-  const [companies, setCompanies] = useState([])
+  const [companies, setCompanies] = useState<string[]>([])
   function prepareCompanyArr(companyData) {
     if (companyData.length > 0) {
       for (let i = 0; i < companyData.length; i++) {
@@ -413,14 +415,14 @@ const CreateNewCandidate = ({
     candidateData.companyId = form.company.split(' ').slice(-1).toString()
 
     try {
-      console.log(candidateData)
+      const validated = await candidateOnClient.parse(candidateData)
       setLoading(true)
       const res = await fetch('/api/candidate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(candidateData),
+        body: JSON.stringify(validated),
       })
       const json = await res.json()
       if (json.success) {
@@ -439,25 +441,6 @@ const CreateNewCandidate = ({
           const enrollJson = await enrollRes.json()
           if (enrollJson.success) {
             setNewCandidate(json.data.id)
-            // try {
-            //   const companyId = form.company.split(' ').slice(-1).toString()
-            //   const companyData = {
-            //     candidateId: json.data.id,
-            //     companyId: companyId,
-            //   }
-
-            //   const companyRes = await fetch(`/api/company/${companyId}`, {
-            //     method: 'POST',
-            //     headers: {
-            //       'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify(companyData),
-            //   })
-            //   const companyJson = await companyRes.json()
-            //   console.log(companyJson)
-            // } catch (error) {
-            //   console.log(error)
-            // }
             setCreateCandidateModal(false)
           }
         } catch (error) {
@@ -466,7 +449,7 @@ const CreateNewCandidate = ({
 
         setLoading(false)
       } else {
-        setAlert('Error: Uh oh something went wrong. Please reload & try again')
+        throw new Error(json.error.message)
       }
     } catch (error: any) {
       setLoading(false)
@@ -492,7 +475,6 @@ const CreateNewCandidate = ({
         formWidth="w-full"
         onSubmit={handleSubmit}
       />
-      {/* {console.log(data)} */}
     </div>
   )
 }
