@@ -408,14 +408,19 @@ const CreateNewCandidate = ({
     if (!form.name || !form.company) {
       return setAlert('Please fill out required form fields. ')
     }
+
+    const { company, ...candidateData } = form
+    candidateData.companyId = form.company.split(' ').slice(-1).toString()
+
     try {
+      console.log(candidateData)
       setLoading(true)
       const res = await fetch('/api/candidate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(candidateData),
       })
       const json = await res.json()
       if (json.success) {
@@ -434,25 +439,25 @@ const CreateNewCandidate = ({
           const enrollJson = await enrollRes.json()
           if (enrollJson.success) {
             setNewCandidate(json.data.id)
-            try {
-              const companyId = form.company.split(' ').slice(-1).toString()
-              const companyData = {
-                candidateId: json.data.id,
-                companyId: companyId,
-              }
+            // try {
+            //   const companyId = form.company.split(' ').slice(-1).toString()
+            //   const companyData = {
+            //     candidateId: json.data.id,
+            //     companyId: companyId,
+            //   }
 
-              const companyRes = await fetch(`/api/company/${companyId}`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(companyData),
-              })
-              const companyJson = await companyRes.json()
-              console.log(companyJson)
-            } catch (error) {
-              console.log(error)
-            }
+            //   const companyRes = await fetch(`/api/company/${companyId}`, {
+            //     method: 'POST',
+            //     headers: {
+            //       'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify(companyData),
+            //   })
+            //   const companyJson = await companyRes.json()
+            //   console.log(companyJson)
+            // } catch (error) {
+            //   console.log(error)
+            // }
             setCreateCandidateModal(false)
           }
         } catch (error) {
