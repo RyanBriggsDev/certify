@@ -1,20 +1,30 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 export const createAdmin = z.object({
-  name: z.string().min(3, { message: "Name must be 3 or more characters long" }).optional(),
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(5, { message: "Password must be 5 or more characters long" }),
-});
+  name: z
+    .string()
+    .min(3, { message: 'Name must be 3 or more characters long' })
+    .optional(),
+  email: z.string().email({ message: 'Invalid email address' }),
+  password: z
+    .string()
+    .min(5, { message: 'Password must be 5 or more characters long' }),
+})
 
 export const updateAdmin = z.object({
-  name: z.string().min(3, { message: "Name must be 3 or more characters long" }).optional(),
-  email: z.string().email({ message: "Invalid email address" }).optional(),
-});
+  name: z
+    .string()
+    .min(3, { message: 'Name must be 3 or more characters long' })
+    .optional(),
+  email: z.string().email({ message: 'Invalid email address' }).optional(),
+})
 
 export const loginSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(5, { message: "Password must be 5 or more characters long" }),
-});
+  email: z.string().email({ message: 'Invalid email address' }),
+  password: z
+    .string()
+    .min(5, { message: 'Password must be 5 or more characters long' }),
+})
 
 export const createCourse = z.object({
   name: z.string(),
@@ -26,7 +36,7 @@ export const createCourse = z.object({
   adminId: z.string(),
   active: z.boolean().optional(),
   info: z.object({}).passthrough().optional(),
-});
+})
 
 export const updateCourse = z.object({
   name: z.string().optional(),
@@ -37,48 +47,54 @@ export const updateCourse = z.object({
   endDate: z.coerce.date().optional(),
   active: z.boolean().optional(),
   info: z.object({}).passthrough().optional(),
-});
+})
 
 export const createCandidate = z.object({
   name: z.string(),
-  email: z.string().optional(),
+  email: z.string().email().optional(),
   address: z.string().optional(),
+  companyId: z.string().optional(),
   telephoneNumber: z.string().optional(),
   createdById: z.string(),
-});
+})
 
 export const candidateOnClient = z.object({
   name: z.string({
-    required_error: "Name field is required",
+    required_error: 'Name field is required',
   }),
-  email: z.string().optional(),
+  companyId: z.string().optional(),
+  email: z.string().email().optional(),
   address: z.string().nullable().optional(),
   telephoneNumber: z.string().nullable().optional(),
-});
+})
 
 export const updateCandidate = z.object({
   name: z.string().optional(),
-  email: z.string().optional(),
+  email: z.string().email().optional(),
   address: z.string().nullable().optional(),
+  companyId: z.string().optional(),
   telephoneNumber: z.string().nullable().optional(),
-});
+})
 
 export const createResult = z.object({
-  courseId: z.string({ required_error: "CourseID", invalid_type_error: "CourseID must be a string" }),
+  courseId: z.string({
+    required_error: 'CourseID',
+    invalid_type_error: 'CourseID must be a string',
+  }),
   candidateId: z.string({
-    required_error: "CandidateID",
-    invalid_type_error: "CandidateID must be a string",
+    required_error: 'CandidateID',
+    invalid_type_error: 'CandidateID must be a string',
   }),
   passdate: z.coerce.date().optional(),
   expiryDate: z.coerce.date().optional(),
-});
+})
 
 export const updateResult = z.object({
   courseId: z.string().optional(),
   candidateId: z.string().optional(),
   passdate: z.coerce.date().optional(),
   expiryDate: z.coerce.date().optional(),
-});
+})
 
 export const createCompany = z.object({
   name: z.string(),
@@ -86,7 +102,7 @@ export const createCompany = z.object({
   telephoneNumber: z.string().optional(),
   contactName: z.string().optional(),
   contactEmail: z.string().email().optional(),
-});
+})
 
 export const updateCompany = z.object({
   name: z.string().optional(),
@@ -94,4 +110,4 @@ export const updateCompany = z.object({
   telephoneNumber: z.string().optional(),
   contactName: z.string().optional(),
   contactEmail: z.string().email().optional(),
-});
+})
