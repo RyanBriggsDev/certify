@@ -1,49 +1,55 @@
-import { useState } from "react";
-import Image from "next/image";
-import profilePic from "@/assets/profilePic.png";
-import Icon from "@/components/Icon";
-import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { useState } from 'react'
+import Image from 'next/image'
+import profilePic from '@/assets/profilePic.png'
+import Icon from '@/components/Icon'
+import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 
 // sidenav links
 const links = [
   {
-    name: "Dashboard",
-    link: "/dashboard",
-    icon: "BiGridAlt",
+    name: 'Dashboard',
+    link: '/dashboard',
+    icon: 'BiGridAlt',
   },
   {
-    name: "Courses",
-    link: "/courses",
-    icon: "BiDesktop",
+    name: 'Courses',
+    link: '/courses',
+    icon: 'BiDesktop',
   },
   {
-    name: "Candidates",
-    link: "/candidates",
-    icon: "BiGroup",
+    name: 'Candidates',
+    link: '/candidates',
+    icon: 'BiGroup',
   },
   {
-    name: "Customers",
-    link: "/customers",
-    icon: "BiSpreadsheet",
+    name: 'Companies',
+    link: '/companies',
+    icon: 'BiSpreadsheet',
   },
   {
-    name: "Reports",
-    link: "/reports",
-    icon: "BiBarChartAlt2",
+    name: 'Reports',
+    link: '/reports',
+    icon: 'BiBarChartAlt2',
   },
-];
+]
 
 export default function Sidebar({ toggleSidebar, sidebarOpen }) {
   return (
     <>
       {!sidebarOpen && (
-        <SidebarArrow toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} className="top-[50%] -left-1" />
+        <SidebarArrow
+          toggleSidebar={toggleSidebar}
+          sidebarOpen={sidebarOpen}
+          className="top-[50%] -left-1"
+        />
       )}
       <aside
         id="sidebar"
         className={`${
-          sidebarOpen ? "w-screen sm:w-60 md:top-0" : "w-0 scale-0 sm:w-0 sm:scale-0 md:scale-100"
+          sidebarOpen
+            ? 'w-screen sm:w-60 md:top-0'
+            : 'w-0 scale-0 sm:w-0 sm:scale-0 md:scale-100'
         } fixed left-0 top-0 z-50 flex h-full flex-col justify-between bg-white/[0.6] p-4 shadow-md duration-300 dark:bg-zinc-900/[0.9] md:sticky md:w-80`}
       >
         <div className="sticky top-0 flex min-h-[98vh] flex-col justify-between">
@@ -60,25 +66,25 @@ export default function Sidebar({ toggleSidebar, sidebarOpen }) {
         </div>
       </aside>
     </>
-  );
+  )
 }
 
 function SidebarArrow({ toggleSidebar, sidebarOpen, className }) {
   return (
     <div
       className={`font absolute z-[100] cursor-pointer rounded bg-sapph-blue p-2 text-2xl text-white md:hidden ${
-        sidebarOpen && "rotate-180"
+        sidebarOpen && 'rotate-180'
       }
       ${className && className}`}
       onClick={() => toggleSidebar()}
     >
       &#x2192;
     </div>
-  );
+  )
 }
 
 function SidebarProfile() {
-  const data = useSession();
+  const data = useSession()
 
   return (
     <div className="flex flex-col gap-4 rounded bg-white p-2 shadow-md dark:bg-dark-gray dark:bg-none">
@@ -91,7 +97,7 @@ function SidebarProfile() {
           alt="temporary profile picture"
         />
         <div>
-          <h3>{data?.data?.user?.name ? data?.data?.user?.name : "Welcome"}</h3>
+          <h3>{data?.data?.user?.name ? data?.data?.user?.name : 'Welcome'}</h3>
           <a href="/profile" className="text-sm text-blue-500 underline">
             Edit Profile
           </a>
@@ -103,15 +109,15 @@ function SidebarProfile() {
         <p className="text-2xl">248</p>
       </div>
     </div>
-  );
+  )
 }
 
 function SidebarLinks({ children }: any) {
-  return <ul className="flex flex-col gap-2">{children}</ul>;
+  return <ul className="flex flex-col gap-2">{children}</ul>
 }
 
 function SidebarLink() {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <>
@@ -121,8 +127,8 @@ function SidebarLink() {
           key={index}
           className={`space-between flex cursor-pointer items-center gap-4 rounded p-2 shadow-md duration-300 ease-in-out [&>*]:hover:invert-0 ${
             item.link === router.route
-              ? "bg-french-blue text-white [&>*]:invert-0"
-              : "bg-white hover:bg-french-blue hover:text-white dark:bg-dark-gray"
+              ? 'bg-french-blue text-white [&>*]:invert-0'
+              : 'bg-white hover:bg-french-blue hover:text-white dark:bg-dark-gray'
           }`}
         >
           <Icon icon={item.icon} size="xl" />
@@ -130,7 +136,7 @@ function SidebarLink() {
         </li>
       ))}
     </>
-  );
+  )
 }
 
 function SidebarSettings() {
@@ -145,5 +151,5 @@ function SidebarSettings() {
         <li>Etc</li>
       </ul>
     </div>
-  );
+  )
 }
