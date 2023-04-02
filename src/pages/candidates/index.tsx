@@ -18,7 +18,6 @@ type TableRowProps = {
 };
 
 export default function Candidates(props: CandidatesProps) {
-  console.log(props);
   return (
     <Frame>
       <H1>Candidates</H1>
