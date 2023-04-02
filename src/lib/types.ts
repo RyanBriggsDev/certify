@@ -34,3 +34,16 @@ export type Result = {
   expiryDate: string | null;
   passDate: string | null;
 };
+
+export type Candidate = {
+  id: string;
+  name: string;
+  email: string;
+  address: string;
+  telephoneNumber: string;
+  companyId: string;
+  createdById: string;
+  createdAt: string;
+  updatedAt: string;
+  company: Company;
+};
