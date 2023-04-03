@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 }
 
-export const getCourses = async (ctx) => {
+export const getCompanies = async (ctx) => {
   const _ = await utils.checkAuth(ctx.req, ctx.res);
   try {
     const companies = await utils.prisma.company.findMany();

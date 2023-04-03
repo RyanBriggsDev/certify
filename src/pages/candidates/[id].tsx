@@ -231,13 +231,15 @@ function CoursesTable(props: CourseTableProps) {
     <div className="flex h-full items-center justify-center rounded bg-stone-900 p-7">
       <table className="w-full border-separate border-spacing-y-2">
         <thead className="bg-sapph-blue text-center">
-          <th className="py-2">Name</th>
-          <th className="hidden py-2 md:table-cell">Type</th>
-          <th className="hidden py-2 lg:table-cell">Location</th>
-          <th className="hidden py-2 sm:table-cell">Pass Date</th>
-          <th className="hidden py-2 lg:table-cell">Expiry</th>
-          <th className="py-2">View</th>
-          <th className="py-2">Certificate</th>
+          <tr>
+            <th className="py-2">Name</th>
+            <th className="hidden py-2 md:table-cell">Type</th>
+            <th className="hidden py-2 lg:table-cell">Location</th>
+            <th className="hidden py-2 sm:table-cell">Pass Date</th>
+            <th className="hidden py-2 lg:table-cell">Expiry</th>
+            <th className="py-2">View</th>
+            <th className="py-2">Certificate</th>
+          </tr>
         </thead>
         <tbody>{rows}</tbody>
       </table>
