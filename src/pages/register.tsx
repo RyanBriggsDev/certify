@@ -1,19 +1,76 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import Form from "@/components/form/Form";
 import { useRouter } from "next/router";
 import register from "../assets/img/register.jpg";
 import Nav from "@/components/ContentAlignment/Frame/Nav";
 import Icon from "@/components/Icon";
+import { createAdmin } from "@/lib/schema";
+import { ZodError } from "zod";
+import Loading from "@/components/Loading";
 
 export default function Register() {
   const router = useRouter();
-  const [error, setError] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError("");
+      }, 5000);
+    }
+  }, [error]);
 
   const onSubmitHandler = async (form: FormData) => {
-    console.log(form);
-    setError(true);
+    setLoading(true);
+    if (form.password !== form.password2) {
+      setError("Please ensure password fields match");
+      return;
+    }
+    try {
+      const admin = await createAdmin.parse({
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      });
+      const result = await fetch("/api/register", {
+        method: "POST",
+        body: JSON.stringify(admin),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (result?.ok) {
+        router.push("/signin");
+      } else {
+        console.log(result);
+        setError("Error when creating account. Please try again");
+        setLoading(false);
+        return;
+      }
+    } catch (err) {
+      setLoading(false);
+      if (err instanceof ZodError) {
+        setError(err.issues[0].message);
+        return;
+      }
+      setError("Something went wrong");
+    }
   };
+
+  if (loading) {
+    return (
+      <>
+        <Head>
+          <title>Certify | Register for Access</title>
+          <meta name="description" content="Register & create your account to start using Certify today." />
+        </Head>
+        <Nav />
+        <Loading />
+      </>
+    );
+  }
 
   return (
     <>
@@ -24,6 +81,7 @@ export default function Register() {
       <Nav />
       <div className="w-100 mx-2 flex flex-grow flex-col items-center justify-center md:mx-0">
         <div className="mx-5 flex w-full flex-col justify-center md:w-2/3">
+          {error ? <RegisterAlert dismiss={() => setError("")} error={error} /> : null}
           <div className="flex">
             <div className="hidden lg:block lg:w-1/2">
               <img src={register.src} alt="" className="h-full object-cover brightness-50" />
@@ -37,7 +95,6 @@ export default function Register() {
               />
             </div>
           </div>
-          {error ? <RegisterAlert dismiss={() => setError(false)} /> : null}
         </div>
       </div>
     </>
@@ -46,10 +103,10 @@ export default function Register() {
 
 function RegisterAlert(props: AlertProps) {
   return (
-    <div className="my-2 flex justify-between rounded-md bg-pallete-orange px-5 py-3 text-white">
+    <div className="z-[1000] my-2 flex justify-between rounded-md bg-pallete-orange px-5 py-3 text-white">
       <p>
-        <span className="font-bold">Alert : </span>Something went wrong registering your account. Please try
-        again.
+        <span className="font-bold">Alert : </span>
+        {props.error}
       </p>
       <div onClick={props.dismiss} className="mx-2 flex cursor-pointer items-center">
         <Icon icon="BiX" size="2xl" color="white" />
@@ -59,6 +116,7 @@ function RegisterAlert(props: AlertProps) {
 }
 
 type FormData = {
+  name: string;
   email: string;
   password: string;
   password2: string;
@@ -66,6 +124,7 @@ type FormData = {
 
 type AlertProps = {
   dismiss: () => void;
+  error: string;
 };
 
 const formContent = [
@@ -79,6 +138,12 @@ const formContent = [
         name: "email",
         placeholder: "Email",
         required: true,
+      },
+      {
+        label: "Name",
+        type: "text",
+        name: "name",
+        placeholder: "Name",
       },
       {
         label: "Password",
