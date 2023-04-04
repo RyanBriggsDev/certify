@@ -28,14 +28,16 @@ export default function Alert(props: AlertProps) {
   }
 
   return (
-    <div className={`rounded-md ${color} m-2 px-5 py-3 text-white`}>
-      <div className="flex justify-between">
-        <H6>{props.heading}</H6>
-        <div onClick={handleDismiss} className="cursor-pointer">
-          <Icon icon="BiX" size="2xl" color="white" />
+    <div className="fixed top-0 left-0 z-[1000] w-full p-3">
+      <div className={`rounded-md ${color} w-full px-5 py-3 text-white`}>
+        <div className="flex justify-between">
+          <p>{props.heading}</p>
+          <div onClick={handleDismiss} className="cursor-pointer">
+            <Icon icon="BiX" size="2xl" color="white" />
+          </div>
         </div>
+        {props.text ? <div className="flex py-3">{props.text}</div> : null}
       </div>
-      {props.text ? <div className="flex py-3">{props.text}</div> : null}
     </div>
   )
 }

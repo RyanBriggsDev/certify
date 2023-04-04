@@ -1,53 +1,53 @@
-import Frame from "@/components/ContentAlignment/Frame/Frame";
-import { H1, H3, H5, H6 } from "@/components/Headings";
-import Form from "@/components/form/Form";
-import Button from "@/components/Button";
-import { useRouter } from "next/router";
-import { getCandidate } from "../api/candidate/[id]";
-import Icon from "@/components/Icon";
-import { useState, useContext } from "react";
-import Loading from "@/components/Loading";
-import { AlertContext } from "@/lib/AlertContext";
-import { candidateOnClient } from "@/lib/schema";
-import { ZodError } from "zod";
-import Modal from "@/components/Modal";
-import type { Company, Result } from "@/lib/types";
-import { formatDate } from "@/lib/dates";
+import Frame from '@/components/ContentAlignment/Frame/Frame'
+import { H1, H3, H5, H6 } from '@/components/Headings'
+import Form from '@/components/form/Form'
+import Button from '@/components/Button'
+import { useRouter } from 'next/router'
+import { getCandidate } from '../api/candidate/[id]'
+import Icon from '@/components/Icon'
+import { useState, useContext } from 'react'
+import Loading from '@/components/Loading'
+import { AlertContext } from '@/lib/AlertContext'
+import { candidateOnClient } from '@/lib/schema'
+import { ZodError } from 'zod'
+import Modal from '@/components/Modal'
+import type { Company, Result } from '@/lib/types'
+import { formatDate } from '@/lib/dates'
 
 type SingleCandidateProps = {
-  candidate: object;
-};
+  candidate: object
+}
 
 type CandidateDetailProps = {
-  candidateForm: any[];
-  id: string | string[] | undefined;
-  setLoading: (boolean) => void;
-};
+  candidateForm: any[]
+  id: string | string[] | undefined
+  setLoading: (boolean) => void
+}
 
 type CompanyDetailsProps = {
-  company: Company;
-};
+  company: Company
+}
 
 type CourseTableProps = {
-  results: Result[] | any;
-};
+  results: Result[] | any
+}
 
 export default function SingleCandidate(props: SingleCandidateProps) {
-  const router = useRouter();
-  const { id } = router.query;
-  const candidate = props.candidate[0];
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const router = useRouter()
+  const { id } = router.query
+  const candidate = props.candidate[0]
+  const [loading, setLoading] = useState(false)
+  const [open, setOpen] = useState(false)
 
   async function handleDelete() {
-    setLoading(true);
+    setLoading(true)
     try {
       await fetch(`/api/candidate/${id}`, {
-        method: "DELETE",
-      });
-      router.push("/candidates");
+        method: 'DELETE',
+      })
+      router.push('/candidates')
     } catch (error: unknown) {
-      router.push("/candidates");
+      router.push('/candidates')
     }
   }
 
@@ -55,36 +55,36 @@ export default function SingleCandidate(props: SingleCandidateProps) {
     {
       inputs: [
         {
-          label: "Full Name*",
-          type: "text",
-          name: "name",
+          label: 'Full Name*',
+          type: 'text',
+          name: 'name',
           initialValue: candidate.name,
         },
         {
-          label: "Email",
-          type: "email",
-          name: "email",
+          label: 'Email',
+          type: 'email',
+          name: 'email',
           initialValue: candidate.email,
         },
         {
-          label: "Address",
-          type: "text",
-          name: "address",
+          label: 'Address',
+          type: 'text',
+          name: 'address',
           initialValue: candidate.address,
         },
         {
-          label: "Telephone",
-          type: "tel",
-          name: "telephoneNumber",
+          label: 'Telephone',
+          type: 'tel',
+          name: 'telephoneNumber',
           initialValue: candidate.telephoneNumber,
         },
       ],
       button: {
-        text: "Update",
-        type: "primary",
+        text: 'Update',
+        type: 'primary',
       },
     },
-  ];
+  ]
   return (
     <Frame>
       {loading ? (
@@ -95,10 +95,18 @@ export default function SingleCandidate(props: SingleCandidateProps) {
           <div className="flex w-full flex-col justify-around gap-2">
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
               <div className="grid gap-3">
-                <Candidate candidateForm={candidateForm} id={id} setLoading={setLoading} />
+                <Candidate
+                  candidateForm={candidateForm}
+                  id={id}
+                  setLoading={setLoading}
+                />
               </div>
               <div className="grid gap-3">
-                {candidate.company ? <Company company={candidate.company} /> : <NoCompany />}
+                {candidate.company ? (
+                  <Company company={candidate.company} />
+                ) : (
+                  <NoCompany />
+                )}
               </div>
             </div>
             <H5>Courses</H5>
@@ -120,7 +128,7 @@ export default function SingleCandidate(props: SingleCandidateProps) {
                   </Button>
                   <Button
                     onClick={() => {
-                      setOpen(false);
+                      setOpen(false)
                     }}
                   >
                     Cancel
@@ -132,36 +140,36 @@ export default function SingleCandidate(props: SingleCandidateProps) {
         </>
       )}
     </Frame>
-  );
+  )
 }
 
 function Candidate(props: CandidateDetailProps) {
-  const router = useRouter();
-  const { setAlert } = useContext(AlertContext) as any;
+  const router = useRouter()
+  const { setAlert } = useContext(AlertContext) as any
 
   async function submitForm(form: any) {
-    props.setLoading(true);
+    props.setLoading(true)
     try {
-      const checked = await candidateOnClient.parse(form);
+      const checked = await candidateOnClient.parse(form)
       const res = await fetch(`/api/candidate/${props.id}`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(checked),
-      });
-      const response = await res.json();
+      })
+      const response = await res.json()
       if (response.success) {
-        router.push("/candidates");
+        router.push('/candidates')
       } else {
-        setAlert("Error: Uh oh something went wrong. Please reload & try again");
+        setAlert('Error: Uh oh something went wrong. Please reload & try again')
       }
     } catch (error: unknown) {
-      props.setLoading(false);
+      props.setLoading(false)
       if (error instanceof ZodError) {
-        setAlert(error.issues[0].message);
+        setAlert(error.issues[0].message)
       } else {
-        setAlert("Error: Uh oh something went wrong. Please reload & try again");
+        setAlert('Error: Uh oh something went wrong. Please reload & try again')
       }
     }
   }
@@ -173,7 +181,7 @@ function Candidate(props: CandidateDetailProps) {
       formWidth="w-full"
       onSubmit={submitForm}
     />
-  );
+  )
 }
 
 function Company(props: CompanyDetailsProps) {
@@ -204,14 +212,14 @@ function Company(props: CompanyDetailsProps) {
         <Button type="light">View Company</Button>
       </a>
     </div>
-  );
+  )
 }
 function NoCompany() {
   return (
     <div className="flex h-full items-center justify-center rounded bg-sapph-blue p-7 dark:bg-stone-900">
       <H6>This candidate does not belong to a company</H6>
     </div>
-  );
+  )
 }
 
 function CoursesTable(props: CourseTableProps) {
@@ -220,12 +228,12 @@ function CoursesTable(props: CourseTableProps) {
       <div className="flex h-full items-center justify-center rounded bg-sapph-blue p-7 dark:bg-stone-900">
         <H6>This candidate is not enrolled in any courses yet</H6>
       </div>
-    );
+    )
   }
 
   const rows = props.results.map((item, i) => {
-    return <CourseRow data={item} key={i} />;
-  });
+    return <CourseRow data={item} key={i} />
+  })
 
   return (
     <div className="flex h-full items-center justify-center rounded bg-stone-900 p-7">
@@ -244,20 +252,24 @@ function CoursesTable(props: CourseTableProps) {
         <tbody>{rows}</tbody>
       </table>
     </div>
-  );
+  )
 }
 
 function CourseRow(props: any) {
   return (
     <tr className="my-1 text-center">
       <td className="capitalize">{props.data.course.name}</td>
-      <td className="hidden capitalize md:table-cell">{props.data.course.type}</td>
-      <td className="hidden capitalize lg:table-cell">{props.data.course.location}</td>
+      <td className="hidden capitalize md:table-cell">
+        {props.data.course.type}
+      </td>
+      <td className="hidden capitalize lg:table-cell">
+        {props.data.course.location}
+      </td>
       <td className="hidden sm:table-cell">
-        {props.data.passDate ? formatDate(props.data.passDate) : "N/A"}
+        {props.data.passDate ? formatDate(props.data.passDate) : 'N/A'}
       </td>
       <td className="hidden lg:table-cell">
-        {props.data.expiryDate ? formatDate(props.data.expiryDate) : "N/A"}
+        {props.data.expiryDate ? formatDate(props.data.expiryDate) : 'N/A'}
       </td>
       <td className="px-2">
         <a
@@ -273,14 +285,14 @@ function CourseRow(props: any) {
         </div>
       </td>
     </tr>
-  );
+  )
 }
 
 export async function getServerSideProps(context) {
-  const candidate = await getCandidate(context);
-  const stringed = JSON.stringify(candidate);
-  const parsed = JSON.parse(stringed);
+  const candidate = await getCandidate(context)
+  const stringed = JSON.stringify(candidate)
+  const parsed = JSON.parse(stringed)
   return {
     props: { candidate: parsed },
-  };
+  }
 }
