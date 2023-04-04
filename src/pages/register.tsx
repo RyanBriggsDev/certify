@@ -84,7 +84,11 @@ export default function Register() {
           {error ? <RegisterAlert dismiss={() => setError("")} error={error} /> : null}
           <div className="flex">
             <div className="hidden lg:block lg:w-1/2">
-              <img src={register.src} alt="" className="h-full object-cover brightness-50" />
+              <img
+                src={register.src}
+                alt="Warehouse floor representing how to use Certify"
+                className="h-full object-cover brightness-50"
+              />
             </div>
             <div className="w-full lg:w-1/2">
               <Form
