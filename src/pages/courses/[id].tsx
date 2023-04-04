@@ -406,7 +406,7 @@ const CreateNewCandidate = ({
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (form: any) => {
-    if (!form.name || !form.company) {
+    if (!form.name) {
       return setAlert('Please fill out required form fields. ')
     }
 

@@ -72,7 +72,7 @@ export default function Form({
                   className="w-full rounded border border-zinc-700 bg-transparent p-1.5 px-3 text-black duration-300 ease-in-out focus:border-french-blue dark:text-white"
                   name={input.name}
                   onChange={(e: any) => onChangeHandler(e)}
-                  placeholder={input.initialValue ? null : input.placeholder}
+                  placeholder={input.placeholder}
                   required={input.required}
                   style={{ width: '100%' }}
                 >
