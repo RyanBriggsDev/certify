@@ -64,8 +64,8 @@ export default function Signin() {
     return (
       <>
         <Head>
-          <title>Certify | Register for Access</title>
-          <meta name="description" content="Register & create your account to start using Certify today." />
+          <title>Certify | Signin to Certify</title>
+          <meta name="description" content="This is the login page for the Certify" />
         </Head>
         <Nav />
         <Loading />
