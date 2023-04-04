@@ -111,3 +111,14 @@ export const updateCompany = z.object({
   contactName: z.string().optional(),
   contactEmail: z.string().email().optional(),
 })
+
+export const companyOnClient = z.object({
+  name: z.string({
+    required_error: 'Company name field is required',
+  }),
+  companyId: z.string().optional(),
+  contactEmail: z.string().email().optional(),
+  contactName: z.string().optional(),
+  address: z.string(),
+  telephoneNumber: z.string().nullable().optional(),
+})
